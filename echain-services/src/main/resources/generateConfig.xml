@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="mysql">
+        <!-- 开启注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+
+        <!-- 数据库连接 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+            connectionURL="jdbc:mysql://localhost:3306/echain" userId="root"
+            password="123456">
+        </jdbcConnection>
+
+        <!--允许数值类型转换成不同类型,否则都映射为BigDecimal -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!-- 模型文件 -->
+        <javaModelGenerator targetPackage="com.echain.entity"
+            targetProject="src/main/java/">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!-- XML映射文件-->
+        <sqlMapGenerator targetPackage="com.echain.dao"
+            targetProject="src/main/resources/">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+		 
+        <!-- DAO文件(mapper接口) -->
+        <javaClientGenerator targetPackage="com.echain.dao"
+            targetProject="src/main/java/" type="XMLMAPPER">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+        
+       <table tableName="ec_logistics_record" domainObjectName="LogisticsRecord" enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false" />
+        </table>
+        <!--   
+        <table tableName="fbm_site_ip" domainObjectName="FbmSiteIp" enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false" />
+        </table>
+       <table tableName="fbm_app_store" domainObjectName="FbmAppStore" enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false" />
+        </table>
+        <table tableName="fbm_site_base_app_info" domainObjectName="FbmSiteBaseAppInfo" enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false" />
+        </table> -->
+        
+   <!--      <table tableName="fbm_tort_data_video_urlcheck" domainObjectName="FbmTortDataVideoUrlCheck" enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false" />
+        </table>  -->
+       <!--  <table tableName="fbm_company" domainObjectName="FbmCompany" enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false" />
+        </table> 
+        <table tableName="fbm_company_product" domainObjectName="FbmCompanyProduct" enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false" />
+        </table> 
+        <table tableName="fbm_site_domain" domainObjectName="FbmSiteDomain" enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false" />
+        </table>  -->
+       <!-- <table tableName="fbm_works" domainObjectName="FbmWorks" enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false" />
+        </table>
+        
+        <table tableName="fbm_mail_template" domainObjectName="FbmMailTemplate" enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false" />
+        </table>  -->
+        
+    </context>
+</generatorConfiguration>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+
+		<!-- 全局映射器启用缓存 -->
+		<setting name="cacheEnabled" value="true"/>
+		<!-- 查询时，关闭关联对象即时加载以提高性能 -->
+		<setting name="lazyLoadingEnabled" value="false"/>
+		<!-- 设置关联对象加载的形态，此处为按需加载字段(加载字段由SQL指定)，不会加载关联表的所有字段，以提高性能 -->
+		<setting name="aggressiveLazyLoading" value="false"/>
+		<!-- 对于未知的SQL查询，允许返回不同的结果集以达到通用的效果 -->
+		<setting name="multipleResultSetsEnabled" value="true"/>
+		<!-- 允许使用列标签代替列名 -->
+		<setting name="useColumnLabel" value="true"/>
+		<!-- 允许使用自定义的主键值(比如由程序生成的UUID 32位编码作为键值)，数据表的PK生成策略将被覆盖 -->
+		<setting name="useGeneratedKeys" value="true"/>
+		<!-- 给予被嵌套的resultMap以字段-属性的映射支持
+			<setting name="autoMappingBehavior" value="FULL" /> -->
+		<!-- 对于批量更新操作缓存SQL以提高性能 加上此句话会导致 做增、删、改时返回-2147482646 问题 但不会影响数据操作
+			<setting name="defaultExecutorType" value="BATCH" /> -->
+		<!-- 数据库超过20000秒仍未响应则超时 -->
+		<setting name="defaultStatementTimeout" value="20000"/>
+	</settings>
+
+	<typeAliases>
+		<typeAlias type="com.echain.plugin.PageData" alias="pd"/>
+		<!-- 分页 -->
+		<typeAlias type="com.echain.plugin.Page" alias="Page"/>
+	</typeAliases>
+	<plugins>
+		<plugin interceptor="com.echain.plugin.PagePlugin">
+			<property name="dialect" value="mysql"/>
+			<property name="pageSqlId" value=".*listPage.*"/>
+		</plugin>
+		 <plugin interceptor="com.github.pagehelper.PageHelper">
+            <property name="dialect" value="mysql"/>
+        </plugin>
+	</plugins>
+
+	<!-- 全局别名设置，在映射文件中只需写别名，而不必写出整个类路径 -->
+	<!-- <typeAliases>可以指定一系列的类型别名 <typeAlias>:指定某一个类型的别名 alias：指定别名的值 type：指定别名对应的类型 -->
+	<!-- 非注解的sql映射文件配置，如果使用mybatis注解，该mapper无需配置，但是如果mybatis注解中包含@resultMap注解，则mapper必须配置，给resultMap注解使用 -->
+	<!-- <mappers>:配置所有的表的配置文件 -->
+	<mappers>
+		<mapper resource="com/echain/dao/ec_logistics_record.xml"/>
+	</mappers>
+
+
+</configuration>
