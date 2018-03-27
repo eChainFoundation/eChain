@@ -3,7 +3,7 @@
 	1. echain-web
 		页面展示
 	2. echain-services
-		数据库连接，已经各种service
+		数据库连接，以及各种service
 	3. lib
 		工程需要的jar包
 	4.script
