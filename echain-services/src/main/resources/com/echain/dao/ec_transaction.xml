@@ -12,6 +12,8 @@
     <result column="logistics_company" property="logisticsCompany" jdbcType="VARCHAR" />
     <result column="logistics_no" property="logisticsNo" jdbcType="VARCHAR" />
     <result column="describe_md5" property="describeMd5" jdbcType="CHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="error_msg" property="errorMsg" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.echain.entity.EcTransaction" extends="BaseResultMap" >
@@ -19,7 +21,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, dapp_id, user_dapp_id, transaction_platform, transaction_no, transaction_picture, 
-    logistics_company, logistics_no, describe_md5, create_time
+    logistics_company, logistics_no, describe_md5, status, error_msg, create_time
   </sql>
   <sql id="Blob_Column_List" >
     describe_text
@@ -40,12 +42,12 @@
     insert into ec_transaction (id, user_id, dapp_id, 
       user_dapp_id, transaction_platform, transaction_no, 
       transaction_picture, logistics_company, logistics_no, 
-      describe_md5, create_time, describe_text
+      describe_md5, status, error_msg, create_time, describe_text
       )
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{dappId,jdbcType=BIGINT}, 
       #{userDappId,jdbcType=BIGINT}, #{transactionPlatform,jdbcType=VARCHAR}, #{transactionNo,jdbcType=VARCHAR}, 
       #{transactionPicture,jdbcType=VARCHAR}, #{logisticsCompany,jdbcType=VARCHAR}, #{logisticsNo,jdbcType=VARCHAR}, 
-      #{describeMd5,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{describeText,jdbcType=LONGVARCHAR}
+      #{describeMd5,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{errorMsg,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{describeText,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.echain.entity.EcTransaction" >
@@ -80,6 +82,12 @@
       </if>
       <if test="describeMd5 != null" >
         describe_md5,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="errorMsg != null" >
+        error_msg,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -119,6 +127,12 @@
       <if test="describeMd5 != null" >
         #{describeMd5,jdbcType=CHAR},
       </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="errorMsg != null" >
+        #{errorMsg,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -157,6 +171,12 @@
       <if test="describeMd5 != null" >
         describe_md5 = #{describeMd5,jdbcType=CHAR},
       </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="errorMsg != null" >
+        error_msg = #{errorMsg,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -177,6 +197,8 @@
       logistics_company = #{logisticsCompany,jdbcType=VARCHAR},
       logistics_no = #{logisticsNo,jdbcType=VARCHAR},
       describe_md5 = #{describeMd5,jdbcType=CHAR},
+      status = #{status,jdbcType=CHAR},
+      error_msg = #{errorMsg,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       describe_text = #{describeText,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
@@ -192,6 +214,8 @@
       logistics_company = #{logisticsCompany,jdbcType=VARCHAR},
       logistics_no = #{logisticsNo,jdbcType=VARCHAR},
       describe_md5 = #{describeMd5,jdbcType=CHAR},
+      status = #{status,jdbcType=CHAR},
+      error_msg = #{errorMsg,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>

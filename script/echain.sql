@@ -153,8 +153,10 @@ CREATE TABLE `ec_transaction` (
   `logistics_no`    	VARCHAR(100) DEFAULT NULL COMMENT '物流编号',
   `describe_text`       TEXT NOT NULL COMMENT '交易详情',
   `describe_md5`        CHAR(32) NOT NULL COMMENT '交易详情MD5',
+  `status`	        CHAR(1) NOT NULL DEFAULT 0 COMMENT '交易状态，0-未审核，1-审核通过，2-审核不通过',
+  `error_msg`	        VARCHAR(1000) DEFAULT NULL COMMENT '交易不通过的原因描述',
   `create_time`         DATETIME NOT NULL COMMENT '创建时间',
-
+ 
   PRIMARY KEY (`id`),
   KEY `index_user_id` (`user_id`),
   KEY `index_dapp_id` (`dapp_id`),

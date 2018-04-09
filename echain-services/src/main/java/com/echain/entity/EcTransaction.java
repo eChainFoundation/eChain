@@ -21,6 +21,10 @@ public class EcTransaction extends BaseEntity {
     private String logisticsNo;
 
     private String describeMd5;
+    
+    private String status;
+    
+    private String errorMsg;
 
     private Date createTime;
 
@@ -98,7 +102,23 @@ public class EcTransaction extends BaseEntity {
         this.describeMd5 = describeMd5 == null ? null : describeMd5.trim();
     }
 
-    public Date getCreateTime() {
+    public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getErrorMsg() {
+		return errorMsg;
+	}
+
+	public void setErrorMsg(String errorMsg) {
+		this.errorMsg = errorMsg;
+	}
+
+	public Date getCreateTime() {
         return createTime;
     }
 
