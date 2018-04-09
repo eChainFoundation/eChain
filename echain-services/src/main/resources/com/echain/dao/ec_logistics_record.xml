@@ -3,7 +3,7 @@
 <mapper namespace="com.echain.dao.EcLogisticsRecordDao" >
   <resultMap id="BaseResultMap" type="com.echain.entity.EcLogisticsRecord" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="logistics_company" property="logisticsCompany" jdbcType="VARCHAR" />
+    <result column="logistics_company_id" property="logisticsCompanyId" jdbcType="BIGINT" />
     <result column="logistics_no" property="logisticsNo" jdbcType="VARCHAR" />
     <result column="logistics_md5" property="logisticsMd5" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -12,7 +12,7 @@
     <result column="logistics_text" property="logisticsText" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, logistics_company, logistics_no, logistics_md5, create_time
+    id, logistics_company_id, logistics_no, logistics_md5, create_time
   </sql>
   <sql id="Blob_Column_List" >
     logistics_text
@@ -30,10 +30,10 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.echain.entity.EcLogisticsRecord" >
-    insert into ec_logistics_record (id, logistics_company, logistics_no, 
+    insert into ec_logistics_record (id, logistics_company_id, logistics_no, 
       logistics_md5, create_time, logistics_text
       )
-    values (#{id,jdbcType=BIGINT}, #{logisticsCompany,jdbcType=VARCHAR}, #{logisticsNo,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{logisticsCompanyId,jdbcType=BIGINT}, #{logisticsNo,jdbcType=VARCHAR}, 
       #{logisticsMd5,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{logisticsText,jdbcType=LONGVARCHAR}
       )
   </insert>
@@ -43,8 +43,8 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="logisticsCompany != null" >
-        logistics_company,
+      <if test="logisticsCompanyId != null" >
+        logistics_company_id,
       </if>
       <if test="logisticsNo != null" >
         logistics_no,
@@ -63,8 +63,8 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="logisticsCompany != null" >
-        #{logisticsCompany,jdbcType=VARCHAR},
+      <if test="logisticsCompanyId != null" >
+        #{logisticsCompanyId,jdbcType=BIGINT},
       </if>
       <if test="logisticsNo != null" >
         #{logisticsNo,jdbcType=VARCHAR},
@@ -83,8 +83,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.echain.entity.EcLogisticsRecord" >
     update ec_logistics_record
     <set >
-      <if test="logisticsCompany != null" >
-        logistics_company = #{logisticsCompany,jdbcType=VARCHAR},
+      <if test="logisticsCompanyId != null" >
+        logistics_company_id = #{logisticsCompanyId,jdbcType=BIGINT},
       </if>
       <if test="logisticsNo != null" >
         logistics_no = #{logisticsNo,jdbcType=VARCHAR},
@@ -103,7 +103,7 @@
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.echain.entity.EcLogisticsRecord" >
     update ec_logistics_record
-    set logistics_company = #{logisticsCompany,jdbcType=VARCHAR},
+    set logistics_company_id = #{logisticsCompanyId,jdbcType=BIGINT},
       logistics_no = #{logisticsNo,jdbcType=VARCHAR},
       logistics_md5 = #{logisticsMd5,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -112,7 +112,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.echain.entity.EcLogisticsRecord" >
     update ec_logistics_record
-    set logistics_company = #{logisticsCompany,jdbcType=VARCHAR},
+    set logistics_company_id = #{logisticsCompanyId,jdbcType=BIGINT},
       logistics_no = #{logisticsNo,jdbcType=VARCHAR},
       logistics_md5 = #{logisticsMd5,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}

@@ -149,7 +149,7 @@ CREATE TABLE `ec_transaction` (
   `transaction_platform`  VARCHAR(100) COMMENT '订单交易平台，例如：淘宝，京东等',
   `transaction_no`      VARCHAR(100) COMMENT '订单编号',
   `transaction_picture` VARCHAR(100) COMMENT '订单照片路径',
-  `logistics_company`   VARCHAR(100) DEFAULT NULL COMMENT '物流公司',
+  `logistics_company_id`   BIGINT(20) DEFAULT NULL COMMENT '物流公司ID',
   `logistics_no`    	VARCHAR(100) DEFAULT NULL COMMENT '物流编号',
   `describe_text`       TEXT NOT NULL COMMENT '交易详情',
   `describe_md5`        CHAR(32) NOT NULL COMMENT '交易详情MD5',
@@ -172,7 +172,7 @@ CREATE TABLE `ec_transaction` (
 DROP TABLE IF EXISTS `ec_logistics_record`;
 CREATE TABLE `ec_logistics_record` (
   `id`                		BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `logistics_company`       VARCHAR(100) NOT NULL COMMENT '物流公司',
+  `logistics_company_id`       BIGINT(20) NOT NULL COMMENT '物流公司ID',
   `logistics_no`    		VARCHAR(100) NOT NULL COMMENT '物流编号',
   `logistics_text`          TEXT NOT NULL COMMENT '物流详情描述',
   `logistics_md5`           CHAR(32) NOT NULL COMMENT '物流详情MD5',
@@ -183,4 +183,18 @@ CREATE TABLE `ec_logistics_record` (
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='物流记录信息表';
 
 
+/*==============================================================*/
+/* Table: `ec_logistics_company`                              */
+/* 物流公司信息表					*/	
+/* 创建时间:2018-03-08                                          */
+/*==============================================================*/
+DROP TABLE IF EXISTS `ec_logistics_company`;
+CREATE TABLE `ec_logistics_company` (
+  `id`                BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `company_name`      VARCHAR(100) NOT NULL COMMENT '公司名',
+  `status`            CHAR(2) NOT NULL DEFAULT '1' COMMENT '1-正常，0-禁用',
+  `create_time`       DATETIME NOT NULL COMMENT '创建时间',
+
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='物流公司信息表';
 

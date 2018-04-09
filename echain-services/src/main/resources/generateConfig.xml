@@ -40,7 +40,7 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
         
-       <table tableName="ec_user_wallet" domainObjectName="EcUserWallet" enableCountByExample="false" enableUpdateByExample="false"
+       <table tableName="ec_logistics_company" domainObjectName="EcLogisticsCompany" enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false" />
         </table>

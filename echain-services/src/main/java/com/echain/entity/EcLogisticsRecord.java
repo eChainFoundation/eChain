@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class EcLogisticsRecord extends BaseEntity {
 
-    private String logisticsCompany;
+    private Long logisticsCompanyId;
 
     private String logisticsNo;
 
@@ -14,12 +14,12 @@ public class EcLogisticsRecord extends BaseEntity {
 
     private String logisticsText;
 
-    public String getLogisticsCompany() {
-        return logisticsCompany;
+    public Long getLogisticsCompanyId() {
+        return logisticsCompanyId;
     }
 
-    public void setLogisticsCompany(String logisticsCompany) {
-        this.logisticsCompany = logisticsCompany == null ? null : logisticsCompany.trim();
+    public void setLogisticsCompanyId(Long logisticsCompanyId) {
+        this.logisticsCompanyId = logisticsCompanyId;
     }
 
     public String getLogisticsNo() {

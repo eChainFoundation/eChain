@@ -16,7 +16,7 @@ public class EcTransaction extends BaseEntity {
 
     private String transactionPicture;
 
-    private String logisticsCompany;
+    private Long logisticsCompanyId;
 
     private String logisticsNo;
 
@@ -78,12 +78,12 @@ public class EcTransaction extends BaseEntity {
         this.transactionPicture = transactionPicture == null ? null : transactionPicture.trim();
     }
 
-    public String getLogisticsCompany() {
-        return logisticsCompany;
+    public Long getLogisticsCompanyId() {
+        return logisticsCompanyId;
     }
 
-    public void setLogisticsCompany(String logisticsCompany) {
-        this.logisticsCompany = logisticsCompany == null ? null : logisticsCompany.trim();
+    public void setLogisticsCompanyId(Long logisticsCompanyId) {
+        this.logisticsCompanyId = logisticsCompanyId;
     }
 
     public String getLogisticsNo() {

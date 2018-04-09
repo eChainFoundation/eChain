@@ -54,6 +54,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="com/echain/dao/ec_user_points.xml"/>
 		<mapper resource="com/echain/dao/ec_user_wallet.xml"/>
 		<mapper resource="com/echain/dao/ec_logistics_record.xml"/>
+		<mapper resource="com/echain/dao/ec_logistics_company.xml"/>
 	</mappers>
 
 
