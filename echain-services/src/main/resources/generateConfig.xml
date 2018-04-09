@@ -40,49 +40,46 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
         
-       <table tableName="ec_logistics_record" domainObjectName="LogisticsRecord" enableCountByExample="false" enableUpdateByExample="false"
+       <table tableName="ec_user_wallet" domainObjectName="EcUserWallet" enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false" />
         </table>
-        <!--   
-        <table tableName="fbm_site_ip" domainObjectName="FbmSiteIp" enableCountByExample="false" enableUpdateByExample="false"
+         <!--
+        <table tableName="ec_user_points" domainObjectName="EcUserPoints" enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false" />
         </table>
-       <table tableName="fbm_app_store" domainObjectName="FbmAppStore" enableCountByExample="false" enableUpdateByExample="false"
+       <table tableName="ec_user_wallet" domainObjectName="EcUserWallet" enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false" />
         </table>
-        <table tableName="fbm_site_base_app_info" domainObjectName="FbmSiteBaseAppInfo" enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
-            <property name="useActualColumnNames" value="false" />
-        </table> -->
-        
-   <!--      <table tableName="fbm_tort_data_video_urlcheck" domainObjectName="FbmTortDataVideoUrlCheck" enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
-            <property name="useActualColumnNames" value="false" />
-        </table>  -->
-       <!--  <table tableName="fbm_company" domainObjectName="FbmCompany" enableCountByExample="false" enableUpdateByExample="false"
+        <table tableName="ec_dapp" domainObjectName="EcDapp" enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false" />
         </table> 
-        <table tableName="fbm_company_product" domainObjectName="FbmCompanyProduct" enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
-            <property name="useActualColumnNames" value="false" />
-        </table> 
-        <table tableName="fbm_site_domain" domainObjectName="FbmSiteDomain" enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
-            <property name="useActualColumnNames" value="false" />
-        </table>  -->
-       <!-- <table tableName="fbm_works" domainObjectName="FbmWorks" enableCountByExample="false" enableUpdateByExample="false"
+        
+        <table tableName="ec_user_dapp" domainObjectName="EcUserDapp" enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false" />
         </table>
-        
-        <table tableName="fbm_mail_template" domainObjectName="FbmMailTemplate" enableCountByExample="false" enableUpdateByExample="false"
+
+		<table tableName="ec_points" domainObjectName="EcPoints" enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false" />
-        </table>  -->
-        
+        </table> 
+        <table tableName="ec_points_pool" domainObjectName="EcPointsPool" enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false" />
+        </table> 
+        <table tableName="ec_transaction" domainObjectName="EcTransaction" enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false" />
+        </table>
+ 
+ 		<table tableName="ec_logistics_record" domainObjectName="EcLogisticsRecord" enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"	selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false" />
+        </table>
+        -->
     </context>
 </generatorConfiguration>

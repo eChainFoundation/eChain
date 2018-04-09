@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.echain.dao.LogisticsRecordDao" >
-  <resultMap id="BaseResultMap" type="com.echain.entity.LogisticsRecord" >
+<mapper namespace="com.echain.dao.EcLogisticsRecordDao" >
+  <resultMap id="BaseResultMap" type="com.echain.entity.EcLogisticsRecord" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="logistics_company_id" property="logisticsCompanyId" jdbcType="BIGINT" />
-    <result column="transaction_id" property="transactionId" jdbcType="BIGINT" />
-    <result column="product_name" property="productName" jdbcType="VARCHAR" />
-    <result column="optioner_name" property="optionerName" jdbcType="VARCHAR" />
-    <result column="option_content" property="optionContent" jdbcType="VARCHAR" />
+    <result column="logistics_company" property="logisticsCompany" jdbcType="VARCHAR" />
+    <result column="logistics_no" property="logisticsNo" jdbcType="VARCHAR" />
+    <result column="logistics_md5" property="logisticsMd5" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.echain.entity.LogisticsRecord" extends="BaseResultMap" >
-    <result column="describe_text" property="describeText" jdbcType="LONGVARCHAR" />
+  <resultMap id="ResultMapWithBLOBs" type="com.echain.entity.EcLogisticsRecord" extends="BaseResultMap" >
+    <result column="logistics_text" property="logisticsText" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, logistics_company_id, transaction_id, product_name, optioner_name, option_content, create_time
+    id, logistics_company, logistics_no, logistics_md5, create_time
   </sql>
   <sql id="Blob_Column_List" >
-    describe_text
+    logistics_text
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
     select 
@@ -31,114 +29,92 @@
     delete from ec_logistics_record
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.echain.entity.LogisticsRecord" >
-    insert into ec_logistics_record (id, logistics_company_id, transaction_id, 
-      product_name, optioner_name, option_content, 
-      create_time, describe_text)
-    values (#{id,jdbcType=BIGINT}, #{logisticsCompanyId,jdbcType=BIGINT}, #{transactionId,jdbcType=BIGINT}, 
-      #{productName,jdbcType=VARCHAR}, #{optionerName,jdbcType=VARCHAR}, #{optionContent,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{describeText,jdbcType=LONGVARCHAR})
+  <insert id="insert" parameterType="com.echain.entity.EcLogisticsRecord" >
+    insert into ec_logistics_record (id, logistics_company, logistics_no, 
+      logistics_md5, create_time, logistics_text
+      )
+    values (#{id,jdbcType=BIGINT}, #{logisticsCompany,jdbcType=VARCHAR}, #{logisticsNo,jdbcType=VARCHAR}, 
+      #{logisticsMd5,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{logisticsText,jdbcType=LONGVARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.echain.entity.LogisticsRecord" >
+  <insert id="insertSelective" parameterType="com.echain.entity.EcLogisticsRecord" >
     insert into ec_logistics_record
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="logisticsCompanyId != null" >
-        logistics_company_id,
+      <if test="logisticsCompany != null" >
+        logistics_company,
       </if>
-      <if test="transactionId != null" >
-        transaction_id,
+      <if test="logisticsNo != null" >
+        logistics_no,
       </if>
-      <if test="productName != null" >
-        product_name,
-      </if>
-      <if test="optionerName != null" >
-        optioner_name,
-      </if>
-      <if test="optionContent != null" >
-        option_content,
+      <if test="logisticsMd5 != null" >
+        logistics_md5,
       </if>
       <if test="createTime != null" >
         create_time,
       </if>
-      <if test="describeText != null" >
-        describe_text,
+      <if test="logisticsText != null" >
+        logistics_text,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="logisticsCompanyId != null" >
-        #{logisticsCompanyId,jdbcType=BIGINT},
+      <if test="logisticsCompany != null" >
+        #{logisticsCompany,jdbcType=VARCHAR},
       </if>
-      <if test="transactionId != null" >
-        #{transactionId,jdbcType=BIGINT},
+      <if test="logisticsNo != null" >
+        #{logisticsNo,jdbcType=VARCHAR},
       </if>
-      <if test="productName != null" >
-        #{productName,jdbcType=VARCHAR},
-      </if>
-      <if test="optionerName != null" >
-        #{optionerName,jdbcType=VARCHAR},
-      </if>
-      <if test="optionContent != null" >
-        #{optionContent,jdbcType=VARCHAR},
+      <if test="logisticsMd5 != null" >
+        #{logisticsMd5,jdbcType=CHAR},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="describeText != null" >
-        #{describeText,jdbcType=LONGVARCHAR},
+      <if test="logisticsText != null" >
+        #{logisticsText,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.echain.entity.LogisticsRecord" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.echain.entity.EcLogisticsRecord" >
     update ec_logistics_record
     <set >
-      <if test="logisticsCompanyId != null" >
-        logistics_company_id = #{logisticsCompanyId,jdbcType=BIGINT},
+      <if test="logisticsCompany != null" >
+        logistics_company = #{logisticsCompany,jdbcType=VARCHAR},
       </if>
-      <if test="transactionId != null" >
-        transaction_id = #{transactionId,jdbcType=BIGINT},
+      <if test="logisticsNo != null" >
+        logistics_no = #{logisticsNo,jdbcType=VARCHAR},
       </if>
-      <if test="productName != null" >
-        product_name = #{productName,jdbcType=VARCHAR},
-      </if>
-      <if test="optionerName != null" >
-        optioner_name = #{optionerName,jdbcType=VARCHAR},
-      </if>
-      <if test="optionContent != null" >
-        option_content = #{optionContent,jdbcType=VARCHAR},
+      <if test="logisticsMd5 != null" >
+        logistics_md5 = #{logisticsMd5,jdbcType=CHAR},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="describeText != null" >
-        describe_text = #{describeText,jdbcType=LONGVARCHAR},
+      <if test="logisticsText != null" >
+        logistics_text = #{logisticsText,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.echain.entity.LogisticsRecord" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.echain.entity.EcLogisticsRecord" >
     update ec_logistics_record
-    set logistics_company_id = #{logisticsCompanyId,jdbcType=BIGINT},
-      transaction_id = #{transactionId,jdbcType=BIGINT},
-      product_name = #{productName,jdbcType=VARCHAR},
-      optioner_name = #{optionerName,jdbcType=VARCHAR},
-      option_content = #{optionContent,jdbcType=VARCHAR},
+    set logistics_company = #{logisticsCompany,jdbcType=VARCHAR},
+      logistics_no = #{logisticsNo,jdbcType=VARCHAR},
+      logistics_md5 = #{logisticsMd5,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      describe_text = #{describeText,jdbcType=LONGVARCHAR}
+      logistics_text = #{logisticsText,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.echain.entity.LogisticsRecord" >
+  <update id="updateByPrimaryKey" parameterType="com.echain.entity.EcLogisticsRecord" >
     update ec_logistics_record
-    set logistics_company_id = #{logisticsCompanyId,jdbcType=BIGINT},
-      transaction_id = #{transactionId,jdbcType=BIGINT},
-      product_name = #{productName,jdbcType=VARCHAR},
-      optioner_name = #{optionerName,jdbcType=VARCHAR},
-      option_content = #{optionContent,jdbcType=VARCHAR},
+    set logistics_company = #{logisticsCompany,jdbcType=VARCHAR},
+      logistics_no = #{logisticsNo,jdbcType=VARCHAR},
+      logistics_md5 = #{logisticsMd5,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.echain.dao.EcTransactionDao" >
+  <resultMap id="BaseResultMap" type="com.echain.entity.EcTransaction" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="dapp_id" property="dappId" jdbcType="BIGINT" />
+    <result column="user_dapp_id" property="userDappId" jdbcType="BIGINT" />
+    <result column="transaction_platform" property="transactionPlatform" jdbcType="VARCHAR" />
+    <result column="transaction_no" property="transactionNo" jdbcType="VARCHAR" />
+    <result column="transaction_picture" property="transactionPicture" jdbcType="VARCHAR" />
+    <result column="logistics_company" property="logisticsCompany" jdbcType="VARCHAR" />
+    <result column="logistics_no" property="logisticsNo" jdbcType="VARCHAR" />
+    <result column="describe_md5" property="describeMd5" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.echain.entity.EcTransaction" extends="BaseResultMap" >
+    <result column="describe_text" property="describeText" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, dapp_id, user_dapp_id, transaction_platform, transaction_no, transaction_picture, 
+    logistics_company, logistics_no, describe_md5, create_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    describe_text
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ec_transaction
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ec_transaction
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.echain.entity.EcTransaction" >
+    insert into ec_transaction (id, user_id, dapp_id, 
+      user_dapp_id, transaction_platform, transaction_no, 
+      transaction_picture, logistics_company, logistics_no, 
+      describe_md5, create_time, describe_text
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{dappId,jdbcType=BIGINT}, 
+      #{userDappId,jdbcType=BIGINT}, #{transactionPlatform,jdbcType=VARCHAR}, #{transactionNo,jdbcType=VARCHAR}, 
+      #{transactionPicture,jdbcType=VARCHAR}, #{logisticsCompany,jdbcType=VARCHAR}, #{logisticsNo,jdbcType=VARCHAR}, 
+      #{describeMd5,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{describeText,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.echain.entity.EcTransaction" >
+    insert into ec_transaction
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="dappId != null" >
+        dapp_id,
+      </if>
+      <if test="userDappId != null" >
+        user_dapp_id,
+      </if>
+      <if test="transactionPlatform != null" >
+        transaction_platform,
+      </if>
+      <if test="transactionNo != null" >
+        transaction_no,
+      </if>
+      <if test="transactionPicture != null" >
+        transaction_picture,
+      </if>
+      <if test="logisticsCompany != null" >
+        logistics_company,
+      </if>
+      <if test="logisticsNo != null" >
+        logistics_no,
+      </if>
+      <if test="describeMd5 != null" >
+        describe_md5,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="describeText != null" >
+        describe_text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="dappId != null" >
+        #{dappId,jdbcType=BIGINT},
+      </if>
+      <if test="userDappId != null" >
+        #{userDappId,jdbcType=BIGINT},
+      </if>
+      <if test="transactionPlatform != null" >
+        #{transactionPlatform,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionNo != null" >
+        #{transactionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionPicture != null" >
+        #{transactionPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsCompany != null" >
+        #{logisticsCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsNo != null" >
+        #{logisticsNo,jdbcType=VARCHAR},
+      </if>
+      <if test="describeMd5 != null" >
+        #{describeMd5,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describeText != null" >
+        #{describeText,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.echain.entity.EcTransaction" >
+    update ec_transaction
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="dappId != null" >
+        dapp_id = #{dappId,jdbcType=BIGINT},
+      </if>
+      <if test="userDappId != null" >
+        user_dapp_id = #{userDappId,jdbcType=BIGINT},
+      </if>
+      <if test="transactionPlatform != null" >
+        transaction_platform = #{transactionPlatform,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionNo != null" >
+        transaction_no = #{transactionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionPicture != null" >
+        transaction_picture = #{transactionPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsCompany != null" >
+        logistics_company = #{logisticsCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsNo != null" >
+        logistics_no = #{logisticsNo,jdbcType=VARCHAR},
+      </if>
+      <if test="describeMd5 != null" >
+        describe_md5 = #{describeMd5,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describeText != null" >
+        describe_text = #{describeText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.echain.entity.EcTransaction" >
+    update ec_transaction
+    set user_id = #{userId,jdbcType=BIGINT},
+      dapp_id = #{dappId,jdbcType=BIGINT},
+      user_dapp_id = #{userDappId,jdbcType=BIGINT},
+      transaction_platform = #{transactionPlatform,jdbcType=VARCHAR},
+      transaction_no = #{transactionNo,jdbcType=VARCHAR},
+      transaction_picture = #{transactionPicture,jdbcType=VARCHAR},
+      logistics_company = #{logisticsCompany,jdbcType=VARCHAR},
+      logistics_no = #{logisticsNo,jdbcType=VARCHAR},
+      describe_md5 = #{describeMd5,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      describe_text = #{describeText,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.echain.entity.EcTransaction" >
+    update ec_transaction
+    set user_id = #{userId,jdbcType=BIGINT},
+      dapp_id = #{dappId,jdbcType=BIGINT},
+      user_dapp_id = #{userDappId,jdbcType=BIGINT},
+      transaction_platform = #{transactionPlatform,jdbcType=VARCHAR},
+      transaction_no = #{transactionNo,jdbcType=VARCHAR},
+      transaction_picture = #{transactionPicture,jdbcType=VARCHAR},
+      logistics_company = #{logisticsCompany,jdbcType=VARCHAR},
+      logistics_no = #{logisticsNo,jdbcType=VARCHAR},
+      describe_md5 = #{describeMd5,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

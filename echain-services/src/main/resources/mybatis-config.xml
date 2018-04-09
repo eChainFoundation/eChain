@@ -45,6 +45,14 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<!-- 非注解的sql映射文件配置，如果使用mybatis注解，该mapper无需配置，但是如果mybatis注解中包含@resultMap注解，则mapper必须配置，给resultMap注解使用 -->
 	<!-- <mappers>:配置所有的表的配置文件 -->
 	<mappers>
+		<mapper resource="com/echain/dao/ec_user.xml"/>
+		<mapper resource="com/echain/dao/ec_dapp.xml"/>
+		<mapper resource="com/echain/dao/ec_points_pool.xml"/>
+		<mapper resource="com/echain/dao/ec_points.xml"/>
+		<mapper resource="com/echain/dao/ec_transaction.xml"/>
+		<mapper resource="com/echain/dao/ec_user_dapp.xml"/>
+		<mapper resource="com/echain/dao/ec_user_points.xml"/>
+		<mapper resource="com/echain/dao/ec_user_wallet.xml"/>
 		<mapper resource="com/echain/dao/ec_logistics_record.xml"/>
 	</mappers>
 

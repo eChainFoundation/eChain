@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.echain.dao.EcDappDao" >
+  <resultMap id="BaseResultMap" type="com.echain.entity.EcDapp" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="dapp_name" property="dappName" jdbcType="VARCHAR" />
+    <result column="dapp_logo" property="dappLogo" jdbcType="VARCHAR" />
+    <result column="dapp_url" property="dappUrl" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.echain.entity.EcDapp" extends="BaseResultMap" >
+    <result column="describe_text" property="describeText" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, dapp_name, dapp_logo, dapp_url, status, create_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    describe_text
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ec_dapp
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ec_dapp
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.echain.entity.EcDapp" >
+    insert into ec_dapp (id, dapp_name, dapp_logo, 
+      dapp_url, status, create_time, 
+      describe_text)
+    values (#{id,jdbcType=BIGINT}, #{dappName,jdbcType=VARCHAR}, #{dappLogo,jdbcType=VARCHAR}, 
+      #{dappUrl,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{describeText,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.echain.entity.EcDapp" >
+    insert into ec_dapp
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dappName != null" >
+        dapp_name,
+      </if>
+      <if test="dappLogo != null" >
+        dapp_logo,
+      </if>
+      <if test="dappUrl != null" >
+        dapp_url,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="describeText != null" >
+        describe_text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="dappName != null" >
+        #{dappName,jdbcType=VARCHAR},
+      </if>
+      <if test="dappLogo != null" >
+        #{dappLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="dappUrl != null" >
+        #{dappUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describeText != null" >
+        #{describeText,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.echain.entity.EcDapp" >
+    update ec_dapp
+    <set >
+      <if test="dappName != null" >
+        dapp_name = #{dappName,jdbcType=VARCHAR},
+      </if>
+      <if test="dappLogo != null" >
+        dapp_logo = #{dappLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="dappUrl != null" >
+        dapp_url = #{dappUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describeText != null" >
+        describe_text = #{describeText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.echain.entity.EcDapp" >
+    update ec_dapp
+    set dapp_name = #{dappName,jdbcType=VARCHAR},
+      dapp_logo = #{dappLogo,jdbcType=VARCHAR},
+      dapp_url = #{dappUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      describe_text = #{describeText,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.echain.entity.EcDapp" >
+    update ec_dapp
+    set dapp_name = #{dappName,jdbcType=VARCHAR},
+      dapp_logo = #{dappLogo,jdbcType=VARCHAR},
+      dapp_url = #{dappUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
