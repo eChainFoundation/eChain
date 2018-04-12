@@ -9,6 +9,10 @@ public class EcLogisticsRecord extends BaseEntity {
     private String logisticsNo;
 
     private String logisticsMd5;
+    
+    private String transactionKey;
+    
+    private String transactionHash;
 
     private Date createTime;
 
@@ -38,7 +42,23 @@ public class EcLogisticsRecord extends BaseEntity {
         this.logisticsMd5 = logisticsMd5 == null ? null : logisticsMd5.trim();
     }
 
-    public Date getCreateTime() {
+    public String getTransactionKey() {
+		return transactionKey;
+	}
+
+	public void setTransactionKey(String transactionKey) {
+		this.transactionKey = transactionKey;
+	}
+
+	public String getTransactionHash() {
+		return transactionHash;
+	}
+
+	public void setTransactionHash(String transactionHash) {
+		this.transactionHash = transactionHash;
+	}
+
+	public Date getCreateTime() {
         return createTime;
     }
 

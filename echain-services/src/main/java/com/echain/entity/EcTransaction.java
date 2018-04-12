@@ -25,6 +25,10 @@ public class EcTransaction extends BaseEntity {
     private String status;
     
     private String errorMsg;
+    
+    private String transactionKey;
+    
+    private String transactionHash;
 
     private Date createTime;
 
@@ -78,7 +82,23 @@ public class EcTransaction extends BaseEntity {
         this.transactionPicture = transactionPicture == null ? null : transactionPicture.trim();
     }
 
-    public Long getLogisticsCompanyId() {
+    public String getTransactionKey() {
+		return transactionKey;
+	}
+
+	public void setTransactionKey(String transactionKey) {
+		this.transactionKey = transactionKey;
+	}
+
+	public String getTransactionHash() {
+		return transactionHash;
+	}
+
+	public void setTransactionHash(String transactionHash) {
+		this.transactionHash = transactionHash;
+	}
+
+	public Long getLogisticsCompanyId() {
         return logisticsCompanyId;
     }
 

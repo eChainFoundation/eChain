@@ -6,13 +6,15 @@
     <result column="logistics_company_id" property="logisticsCompanyId" jdbcType="BIGINT" />
     <result column="logistics_no" property="logisticsNo" jdbcType="VARCHAR" />
     <result column="logistics_md5" property="logisticsMd5" jdbcType="CHAR" />
+    <result column="transaction_key" property="transactionKey" jdbcType="VARCHAR" />
+    <result column="transaction_hash" property="transactionHash" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.echain.entity.EcLogisticsRecord" extends="BaseResultMap" >
     <result column="logistics_text" property="logisticsText" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, logistics_company_id, logistics_no, logistics_md5, create_time
+    id, logistics_company_id, logistics_no, logistics_md5, transaction_key, transaction_hash,create_time
   </sql>
   <sql id="Blob_Column_List" >
     logistics_text
@@ -31,10 +33,11 @@
   </delete>
   <insert id="insert" parameterType="com.echain.entity.EcLogisticsRecord" >
     insert into ec_logistics_record (id, logistics_company_id, logistics_no, 
-      logistics_md5, create_time, logistics_text
+      logistics_md5, transaction_key, transaction_hash, create_time, logistics_text
       )
     values (#{id,jdbcType=BIGINT}, #{logisticsCompanyId,jdbcType=BIGINT}, #{logisticsNo,jdbcType=VARCHAR}, 
-      #{logisticsMd5,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{logisticsText,jdbcType=LONGVARCHAR}
+      #{logisticsMd5,jdbcType=CHAR}, #{transactionKey,jdbcType=VARCHAR}, 
+      #{transactionHash,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP}, #{logisticsText,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.echain.entity.EcLogisticsRecord" >
@@ -51,6 +54,12 @@
       </if>
       <if test="logisticsMd5 != null" >
         logistics_md5,
+      </if>
+      <if test="transactionKey != null" >
+        transaction_key,
+      </if>
+      <if test="transactionHash != null" >
+        transaction_hash,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -72,6 +81,12 @@
       <if test="logisticsMd5 != null" >
         #{logisticsMd5,jdbcType=CHAR},
       </if>
+      <if test="transactionKey != null" >
+        #{transactionKey,jdbcType=VARCHAR}, 
+      </if>
+      <if test="transactionHash != null" >
+        #{transactionHash,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -92,6 +107,12 @@
       <if test="logisticsMd5 != null" >
         logistics_md5 = #{logisticsMd5,jdbcType=CHAR},
       </if>
+      <if test="transactionKey != null" >
+        transaction_key = #{transactionKey,jdbcType=VARCHAR}, 
+      </if>
+      <if test="transactionHash != null" >
+        transaction_hash = #{transactionHash,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -106,6 +127,8 @@
     set logistics_company_id = #{logisticsCompanyId,jdbcType=BIGINT},
       logistics_no = #{logisticsNo,jdbcType=VARCHAR},
       logistics_md5 = #{logisticsMd5,jdbcType=CHAR},
+      transaction_key = #{transactionKey,jdbcType=VARCHAR}, 
+      transaction_hash = #{transactionHash,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       logistics_text = #{logisticsText,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
@@ -115,6 +138,8 @@
     set logistics_company_id = #{logisticsCompanyId,jdbcType=BIGINT},
       logistics_no = #{logisticsNo,jdbcType=VARCHAR},
       logistics_md5 = #{logisticsMd5,jdbcType=CHAR},
+      transaction_key = #{transactionKey,jdbcType=VARCHAR}, 
+      transaction_hash = #{transactionHash,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>

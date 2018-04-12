@@ -14,6 +14,8 @@
     <result column="describe_md5" property="describeMd5" jdbcType="CHAR" />
     <result column="status" property="status" jdbcType="CHAR" />
     <result column="error_msg" property="errorMsg" jdbcType="VARCHAR" />
+    <result column="transaction_key" property="transactionKey" jdbcType="VARCHAR" />
+    <result column="transaction_hash" property="transactionHash" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.echain.entity.EcTransaction" extends="BaseResultMap" >
@@ -21,7 +23,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, dapp_id, user_dapp_id, transaction_platform, transaction_no, transaction_picture, 
-    logistics_company_id, logistics_no, describe_md5, status, error_msg, create_time
+    logistics_company_id, logistics_no, describe_md5, status, error_msg, transaction_key,transaction_hash, create_time
   </sql>
   <sql id="Blob_Column_List" >
     describe_text
@@ -42,12 +44,13 @@
     insert into ec_transaction (id, user_id, dapp_id, 
       user_dapp_id, transaction_platform, transaction_no, 
       transaction_picture, logistics_company_id, logistics_no, 
-      describe_md5, status, error_msg, create_time, describe_text
+      describe_md5, status, error_msg, transaction_key,transaction_hash,create_time, describe_text
       )
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{dappId,jdbcType=BIGINT}, 
       #{userDappId,jdbcType=BIGINT}, #{transactionPlatform,jdbcType=VARCHAR}, #{transactionNo,jdbcType=VARCHAR}, 
       #{transactionPicture,jdbcType=VARCHAR}, #{logisticsCompanyId,jdbcType=BIGINT}, #{logisticsNo,jdbcType=VARCHAR}, 
-      #{describeMd5,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{errorMsg,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{describeText,jdbcType=LONGVARCHAR}
+      #{describeMd5,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{errorMsg,jdbcType=VARCHAR}, 
+      #{transactionKey,jdbcType=VARCHAR}, #{transactionHash,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{describeText,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.echain.entity.EcTransaction" >
@@ -88,6 +91,12 @@
       </if>
       <if test="errorMsg != null" >
         error_msg,
+      </if>
+      <if test="transactionKey != null" >
+        transaction_key,
+      </if>
+      <if test="transactionHash != null" >
+        transaction_hash,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -133,6 +142,12 @@
       <if test="errorMsg != null" >
         #{errorMsg,jdbcType=VARCHAR},
       </if>
+      <if test="transactionKey != null" >
+        #{transactionKey,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionHash != null" >
+        #{transactionHash,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -177,6 +192,12 @@
       <if test="errorMsg != null" >
         error_msg = #{errorMsg,jdbcType=VARCHAR},
       </if>
+      <if test="transactionKey != null" >
+        transaction_key = #{transactionKey,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionHash != null" >
+        transaction_hash = #{transactionHash,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -199,6 +220,8 @@
       describe_md5 = #{describeMd5,jdbcType=CHAR},
       status = #{status,jdbcType=CHAR},
       error_msg = #{errorMsg,jdbcType=VARCHAR},
+      transaction_key = #{transactionKey,jdbcType=VARCHAR}, 
+      transaction_hash = #{transactionHash,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       describe_text = #{describeText,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
@@ -216,6 +239,8 @@
       describe_md5 = #{describeMd5,jdbcType=CHAR},
       status = #{status,jdbcType=CHAR},
       error_msg = #{errorMsg,jdbcType=VARCHAR},
+      transaction_key = #{transactionKey,jdbcType=VARCHAR}, 
+      transaction_hash = #{transactionHash,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>

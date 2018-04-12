@@ -153,8 +153,10 @@ CREATE TABLE `ec_transaction` (
   `logistics_no`    	VARCHAR(100) DEFAULT NULL COMMENT '物流编号',
   `describe_text`       TEXT NOT NULL COMMENT '交易详情',
   `describe_md5`        CHAR(32) NOT NULL COMMENT '交易详情MD5',
-  `status`	        CHAR(1) NOT NULL DEFAULT 0 COMMENT '交易状态，0-未审核，1-审核通过，2-审核不通过',
+  `status`	            CHAR(1) NOT NULL DEFAULT 0 COMMENT '交易状态，0-未审核，1-审核通过，2-审核不通过',
   `error_msg`	        VARCHAR(1000) DEFAULT NULL COMMENT '交易不通过的原因描述',
+  `transaction_key`     VARCHAR(100) COMMENT '交易上链的key，通过此key值获取上传数据的具体hash值',
+  `transaction_hash`    VARCHAR(100) COMMENT '数据上链时，返回的交易hash值，通过此hash在以太坊浏览器上查找到相应的数据信息',
   `create_time`         DATETIME NOT NULL COMMENT '创建时间',
  
   PRIMARY KEY (`id`),
@@ -176,6 +178,8 @@ CREATE TABLE `ec_logistics_record` (
   `logistics_no`    		VARCHAR(100) NOT NULL COMMENT '物流编号',
   `logistics_text`          TEXT NOT NULL COMMENT '物流详情描述',
   `logistics_md5`           CHAR(32) NOT NULL COMMENT '物流详情MD5',
+  `transaction_key`     VARCHAR(100) COMMENT '交易上链的key，通过此key值获取上传数据的具体hash值',
+  `transaction_hash`    VARCHAR(100) COMMENT '数据上链时，返回的交易hash值，通过此hash在以太坊浏览器上查找到相应的数据信息',
   `create_time`      		DATETIME NOT NULL COMMENT '创建时间',
 
   PRIMARY KEY (`id`),
@@ -185,7 +189,7 @@ CREATE TABLE `ec_logistics_record` (
 
 /*==============================================================*/
 /* Table: `ec_logistics_company`                              */
-/* 物流公司信息表					*/	
+/* 物流公司信息表					*/
 /* 创建时间:2018-03-08                                          */
 /*==============================================================*/
 DROP TABLE IF EXISTS `ec_logistics_company`;
