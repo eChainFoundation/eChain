@@ -1,8 +1,9 @@
-Ä¿Â¼½éÉÜ
-	
-	1. echaincloud-web
-		Ò³ÃæÕ¹Ê¾
-	2. echaincloud-services
-		Êý¾Ý¿âÁ¬½Ó£¬ÒÔ¼°¸÷ÖÖservice
-        3.solidity
-		ÒÔÌ«·»ÖÇÄÜºÏÔ¼
+#Swagger2çš„è®¿é—®è·¯å¾„
+http://localhost:8090/swagger-ui.html
+#Druidç›‘æŽ§é¡µé¢è®¿é—®è·¯å¾„
+http://localhost:8090/druid/login.html
+ç”¨æˆ·åï¼šroot  å¯†ç ï¼šroot
+#é¡¹ç›®æ‰“åŒ…å‘½ä»¤
+mvn clean install
+#é¡¹ç›®éƒ¨ç½²å‘½ä»¤
+nohup java -jar -Xms1024M -Xmx1024M echain-web-1.0.0-SNAPSHOT.jar --spring.profiles.active=prod --server.port=8090 1>/dev/null 2>/dev/null &
