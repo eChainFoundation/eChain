@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- %m输出的信息,%p日志级别,%t线程名,%d日期,%c类的全名,,,, -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d %p (%file:%line\)- %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ECHAIN_API_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/var/log/echain/echain-web.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>/var/log/echain/echain-web-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>128MB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.echain.common.logger.ErrorLog" level="error" additivity="false">
+        <appender-ref ref="ECHAIN_API_ERROR" />
+    </logger>
+
+
+    <!--控制台打印-->
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="ECHAIN_API_ERROR" />
+    </root>
+
+</configuration>

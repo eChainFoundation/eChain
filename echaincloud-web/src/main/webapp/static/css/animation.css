@@ -1,0 +1,99 @@
+.qMall{
+	animation:Mallanimation 3s infinite;
+	-webkit-animation:Mallanimation 3s infinite;
+	-o-animation:Mallanimation 3s infinite;
+	-moz-animation:Mallanimation 3s infinite;
+}
+.eMall{
+	animation:Mallanimation2 4s infinite;
+	-webkit-animation:Mallanimation2 4s infinite;
+	-o-animation:Mallanimation2 4s infinite;
+	-moz-animation:Mallanimation2 4s infinite;
+}
+.nMall{
+	animation:Mallanimation3 3s infinite;
+	-webkit-animation:Mallanimation3 3s infinite;
+	-o-animation:Mallanimation3 3s infinite;
+	-moz-animation:Mallanimation3 3s infinite;
+}
+.index-solid{
+	animation: solidAnimation 3s infinite;
+}
+@keyframes solidAnimation {
+	0% {opacity:1;}
+	50% {opacity: 0;}
+	100% {opacity: 1;}
+}
+@keyframes Mallanimation
+{
+	0% {transform:translateY(0);}
+	50% {transform:translateY(1.1rem);}
+	100% {transform:translateY(0);}
+}
+@-webkit-keyframs Mallanimation
+{
+	0% {-webkit-transform:translateY(0);}
+	50% {-webkit-transform:translateY(1.1rem);}
+	100% {-webkit-transform:translateY(0);}
+}
+@-o-keyframs Mallanimation
+{
+	0% {-o-transform:translateY(0);}
+	50% {-o-transform:translateY(1.1rem);}
+	100% {-o-transform:translateY(0);}
+}
+@-moz-keyframs Mallanimation
+{
+	0% {-moz-transform:translateY(0);}
+	50% {-moz-transform:translateY(1.1rem);}
+	100% {-moz-transform:translateY(0);}
+}
+@keyframes Mallanimation2
+{
+	0% {transform:translateY(0);}
+	50% {transform:translateY(1.5rem);}
+	100% {transform:translateY(0);}
+}
+@-webkit-keyframs Mallanimation2
+{
+	0% {-webkit-transform:translateY(0);}
+	50% {-webkit-transform:translateY(1.5rem);}
+	100% {-webkit-transform:translateY(0);}
+}
+@-o-keyframs Mallanimation2
+{
+	0% {-webkit-transform:translateY(0);}
+	50% {-o-transform:translateY(1.5rem);}
+	100% {-o-transform:translateY(0);}
+}
+@-moz-keyframs Mallanimation2
+{
+	0% {-webkit-transform:translateY(0);}
+	50% {-moz-transform:translateY(1.5rem);}
+	100% {-moz-transform:translateY(0);}
+}
+
+@keyframes Mallanimation3
+{
+	0% {transform:translateY(0);}
+	50% {transform:translateY(-0.8rem);}
+	100% {transform:translateY(0);}
+}
+@-webkit-keyframs Mallanimation3
+{
+	0% {-webkit-transform:translateY(0);}
+	50% {-webkit-transform:translateY(-0.8rem);}
+	100% {-webkit-transform:translateY(0);}
+}
+@-o-keyframs Mallanimation3
+{
+	0% {-webkit-transform:translateY(0);}
+	50% {-o-transform:translateY(-0.8rem);}
+	100% {-o-transform:translateY(0);}
+}
+@-moz-keyframs Mallanimation3
+{
+	0% {-webkit-transform:translateY(0);}
+	50% {-moz-transform:translateY(-0.8rem);}
+	100% {-moz-transform:translateY(0);}
+}

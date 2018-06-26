@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.echain.dao.EcOrderDao" >
+  <resultMap id="BaseResultMap" type="com.echain.entity.EcOrder" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="describe_md5" property="describeMd5" jdbcType="CHAR" />
+    <result column="transaction_key" property="transactionKey" jdbcType="VARCHAR" />
+    <result column="transaction_hash" property="transactionHash" jdbcType="VARCHAR" />
+    <result column="block_no" property="blockNo" jdbcType="VARCHAR" />
+    <result column="qrcode_path" property="qrcodePath" jdbcType="VARCHAR" />
+    <result column="flag" property="flag" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.echain.entity.EcOrder" extends="BaseResultMap" >
+    <result column="describe_text" property="describeText" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_id, describe_md5, transaction_key, transaction_hash, block_no,qrcode_path,flag
+  </sql>
+  <sql id="Blob_Column_List" >
+    describe_text
+  </sql>
+  <!--<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ec_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>-->
+  
+  <!--<select id="listAll" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ec_order
+  </select>-->
+  <!--<delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ec_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.echain.entity.EcOrder" >
+    insert into ec_order (id, order_id, describe_md5, 
+      transaction_key, transaction_hash, block_no, qrcode_path,flag,
+      describe_text)
+    values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=VARCHAR}, #{describeMd5,jdbcType=CHAR}, 
+      #{transactionKey,jdbcType=VARCHAR}, #{transactionHash,jdbcType=VARCHAR}, #{blockNo,jdbcType=VARCHAR}, 
+      #{qrcodePath,jdbcType=VARCHAR},#{flag,jdbcType=INTEGER},#{describeText,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.echain.entity.EcOrder" >
+    insert into ec_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="describeMd5 != null" >
+        describe_md5,
+      </if>
+      <if test="transactionKey != null" >
+        transaction_key,
+      </if>
+      <if test="transactionHash != null" >
+        transaction_hash,
+      </if>
+      <if test="blockNo != null" >
+        block_no,
+      </if>
+      <if test="qrcodePath != null" >
+        qrcode_path,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="describeText != null" >
+        describe_text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="describeMd5 != null" >
+        #{describeMd5,jdbcType=CHAR},
+      </if>
+      <if test="transactionKey != null" >
+        #{transactionKey,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionHash != null" >
+        #{transactionHash,jdbcType=VARCHAR},
+      </if>
+      <if test="blockNo != null" >
+        #{blockNo,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcodePath != null" >
+        #{qrcodePath,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="describeText != null" >
+        #{describeText,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.echain.entity.EcOrder" >
+    update ec_order
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="describeMd5 != null" >
+        describe_md5 = #{describeMd5,jdbcType=CHAR},
+      </if>
+      <if test="transactionKey != null" >
+        transaction_key = #{transactionKey,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionHash != null" >
+        transaction_hash = #{transactionHash,jdbcType=VARCHAR},
+      </if>
+      <if test="blockNo != null" >
+        block_no = #{blockNo,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcodePath != null" >
+        qrcode_path = #{qrcodePath,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="describeText != null" >
+        describe_text = #{describeText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>-->
+  <!--<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.echain.entity.EcOrder" >
+    update ec_order
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      describe_md5 = #{describeMd5,jdbcType=CHAR},
+      transaction_key = #{transactionKey,jdbcType=VARCHAR},
+      transaction_hash = #{transactionHash,jdbcType=VARCHAR},
+      block_no = #{blockNo,jdbcType=VARCHAR},
+      qrcode_path = #{qrcodePath,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=INTEGER},
+      describe_text = #{describeText,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>-->
+  <!--<update id="updateByPrimaryKey" parameterType="com.echain.entity.EcOrder" >
+    update ec_order
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      describe_md5 = #{describeMd5,jdbcType=CHAR},
+      transaction_key = #{transactionKey,jdbcType=VARCHAR},
+      transaction_hash = #{transactionHash,jdbcType=VARCHAR},
+      block_no = #{blockNo,jdbcType=VARCHAR},
+      qrcode_path = #{qrcodePath,jdbcType=VARCHAR}
+      flag = #{flag,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>-->
+  
+  <select id="getByOrderId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ec_order
+    where order_id =#{orderId}
+  </select>
+  
+   <select id="getByFlag" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ec_order
+    where flag = 1
+  </select>
+</mapper>

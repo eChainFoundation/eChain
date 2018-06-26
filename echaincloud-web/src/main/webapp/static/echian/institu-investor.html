@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="email=no" name="format-detection" />
+    <link href="../css/style.css" rel="stylesheet" type="text/css">
+    <link href="../css/swiper.css" rel="stylesheet" type="text/css">
+    <link href="../font/iconfont.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../js/hotcss.js"></script>
+    <title>Official Website</title>
+</head>
+<body>
+<header class="off-header">
+    <div class="t-box header-top h-auto">
+        <i class="iconfont icon-fanhui f-icon-s2 color-white"></i>
+        <h2 class="t-box-flex1 color-white f-s4 mar-l">Official Website</h2>
+    </div>
+</header>
+<section class="login-box">
+    <article class="auto">
+        <ul class="login-ul">
+            <li class="t-box">
+                <div class="t-box-flex1">
+                    <input type="text" placeholder="Company name" />
+                </div>
+            </li>
+            <li class="t-box">
+                <div class="t-box-flex1">
+                    <input type="text" placeholder="Phone number" />
+                </div>
+            </li>
+            <li class="t-box">
+                <div class="t-box-flex1">
+                    <input type="text" placeholder="E-mail" />
+                </div>
+            </li>
+            <li class="t-box">
+                <div class="t-box-flex1">
+                    <input type="text" placeholder="Investment amount" />
+                </div>
+            </li>
+            <li class="t-box">
+                <div class="t-box-flex1">
+                    <input type="text" placeholder="CAPTCHA" onchange="codeCheckout($(this))" />
+                </div>
+                <canvas class="changeImg" id="canvas" width="120" height="40"></canvas>
+
+            </li>
+        </ul>
+        <button type="button" class="btn btn-log bg-public-con sub-pop">Submit</button>
+
+    </article>
+
+</section>
+<div class="ceng">
+    <!--判断的弹层-->
+    <div class="bg-white off-pop">
+        <ul class="auto t-center f-s3">
+            <li>Success</li>
+            <li class="off-back">Back</li>
+        </ul>
+    </div>
+
+    <!--判断的弹层-->
+    <!--<div class="bg-white off-pop">
+        <ul class="t-center f-s3">
+            <li>Fail</li>
+            <li class="off-back">Back</li>
+        </ul>
+    </div>-->
+</div>
+
+<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="../js/iscroll.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.echain.dao.EcLogisticsRecordDao" >
+  <resultMap id="BaseResultMap" type="com.echain.entity.EcLogisticsRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="logistics_company_id" property="logisticsCompanyId" jdbcType="BIGINT" />
+    <result column="logistics_no" property="logisticsNo" jdbcType="VARCHAR" />
+    <result column="logistics_md5" property="logisticsMd5" jdbcType="CHAR" />
+    <result column="transaction_key" property="transactionKey" jdbcType="BIGINT" />
+    <result column="transaction_hash" property="transactionHash" jdbcType="VARCHAR" />
+    <result column="block_no" property="blockNo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.echain.entity.EcLogisticsRecord" extends="BaseResultMap" >
+    <result column="logistics_text" property="logisticsText" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, logistics_company_id, logistics_no, logistics_md5, transaction_key, transaction_hash, block_no, create_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    logistics_text
+  </sql>
+  <!--<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ec_logistics_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>-->
+  <select id="selectMinIdNokey" resultType="java.lang.Long">
+    select min(id) from ec_logistics_record where transaction_key = -1
+  </select>
+  <select id="selectLogisticsRecords" resultMap="BaseResultMap">
+    select id,logistics_md5 from ec_logistics_record t
+	<where>
+		transaction_key = -1
+  		<if test="minId != null">
+  			and t.id >= #{minId} 
+  		</if>
+  		<if test="upDataSize != null">
+  			limit 0, #{upDataSize}
+  		</if>
+  	</where>
+  </select>
+  <!--<delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ec_logistics_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.echain.entity.EcLogisticsRecord" >
+  	<selectKey resultType="long"  keyProperty="id">  
+ 	   SELECT LAST_INSERT_ID() 
+   	</selectKey>
+    insert into ec_logistics_record (id, logistics_company_id, logistics_no, 
+      logistics_md5, transaction_key, transaction_hash, block_no, create_time, logistics_text
+      )
+    values (#{id,jdbcType=BIGINT}, #{logisticsCompanyId,jdbcType=BIGINT}, #{logisticsNo,jdbcType=VARCHAR}, 
+      #{logisticsMd5,jdbcType=CHAR}, #{transactionKey,jdbcType=BIGINT}, #{transactionHash,jdbcType=VARCHAR},
+      #{blockNo,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP}, #{logisticsText,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.echain.entity.EcLogisticsRecord" >
+  	<selectKey resultType="long"  keyProperty="id">  
+ 	   SELECT LAST_INSERT_ID() 
+   	</selectKey>
+    insert into ec_logistics_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="logisticsCompanyId != null" >
+        logistics_company_id,
+      </if>
+      <if test="logisticsNo != null" >
+        logistics_no,
+      </if>
+      <if test="logisticsMd5 != null" >
+        logistics_md5,
+      </if>
+      <if test="transactionKey != null" >
+        transaction_key,
+      </if>
+      <if test="transactionHash != null" >
+        transaction_hash,
+      </if>
+      <if test="blockNo != null" >
+        block_no,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="logisticsText != null" >
+        logistics_text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="logisticsCompanyId != null" >
+        #{logisticsCompanyId,jdbcType=BIGINT},
+      </if>
+      <if test="logisticsNo != null" >
+        #{logisticsNo,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsMd5 != null" >
+        #{logisticsMd5,jdbcType=CHAR},
+      </if>
+      <if test="transactionKey != null" >
+        #{transactionKey,jdbcType=BIGINT}, 
+      </if>
+      <if test="transactionHash != null" >
+        #{transactionHash,jdbcType=VARCHAR},
+      </if>
+      <if test="blockNo != null" >
+        #{blockNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logisticsText != null" >
+        #{logisticsText,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.echain.entity.EcLogisticsRecord" >
+    update ec_logistics_record
+    <set >
+      <if test="logisticsCompanyId != null" >
+        logistics_company_id = #{logisticsCompanyId,jdbcType=BIGINT},
+      </if>
+      <if test="logisticsNo != null" >
+        logistics_no = #{logisticsNo,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsMd5 != null" >
+        logistics_md5 = #{logisticsMd5,jdbcType=CHAR},
+      </if>
+      <if test="transactionKey != null" >
+        transaction_key = #{transactionKey,jdbcType=BIGINT}, 
+      </if>
+      <if test="transactionHash != null" >
+        transaction_hash = #{transactionHash,jdbcType=VARCHAR},
+      </if>
+      <if test="blockNo != null" >
+        block_no = #{blockNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logisticsText != null" >
+        logistics_text = #{logisticsText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>-->
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.echain.entity.EcLogisticsRecord" >
+    update ec_logistics_record
+    set logistics_company_id = #{logisticsCompanyId,jdbcType=BIGINT},
+      logistics_no = #{logisticsNo,jdbcType=VARCHAR},
+      logistics_md5 = #{logisticsMd5,jdbcType=CHAR},
+      transaction_key = #{transactionKey,jdbcType=BIGINT}, 
+      transaction_hash = #{transactionHash,jdbcType=VARCHAR},
+      block_no = #{blockNo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      logistics_text = #{logisticsText,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!--<update id="updateByPrimaryKey" parameterType="com.echain.entity.EcLogisticsRecord" >
+    update ec_logistics_record
+    set logistics_company_id = #{logisticsCompanyId,jdbcType=BIGINT},
+      logistics_no = #{logisticsNo,jdbcType=VARCHAR},
+      logistics_md5 = #{logisticsMd5,jdbcType=CHAR},
+      transaction_key = #{transactionKey,jdbcType=BIGINT}, 
+      transaction_hash = #{transactionHash,jdbcType=VARCHAR},
+      block_no = #{blockNo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>-->
+  
+  <select id="selectByCompanyIdAndNo" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ec_logistics_record
+    where logistics_company_id = #{logisticsCompanyId}
+    and logistics_no = #{logisticsNo}
+    order by create_time DESC
+  </select>
+</mapper>

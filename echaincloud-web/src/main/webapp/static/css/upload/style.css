@@ -1,0 +1,448 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body {
+    font: normal 16px 'microsoft yahei', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #fff;
+    color: #555;
+}
+
+html {
+    height: 100%
+}
+
+li {
+    list-style: none
+}
+
+i, em {
+    font-style: normal;
+}
+
+.clear {
+    clear: both;
+}
+
+a, a:hover {
+    color: #5c95fe;
+    text-decoration: none
+}
+
+label {
+    display: inline-block;
+    max-width: 100%;
+    font-weight: normal;
+    margin: 0
+}
+
+a:visited {
+    text-decoration: none
+}
+.f_l {
+    float: left
+}
+.f_r{
+    float: right;
+}
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+.infoBox,.orderBox,.transferBox,.txtBox,.keyValue{
+    width: 1100px;
+    margin: 0 auto;
+}
+/*perfectInfo*/
+
+.infoTop{
+    margin: 100px auto 40px;
+}
+.infoCon li{
+    width: 900px;
+    color: #999;
+    margin: 20px 0;
+}
+.infoCon li input {
+    width: 80%;
+    height: 20px;
+    padding: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #d9d6d5;
+}
+.infoCon li textarea {
+    width: 80%;
+    padding: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #d9d6d5;
+    margin-left: 30px;
+}
+.pOrderInfo{
+    position: relative;
+    bottom: 150px;
+}
+.infoPBox{
+    text-align: center;
+    margin: 40px 0;
+}
+.infoBtn{
+    height: 48px;
+    width: 180px;
+    line-height: 48px;
+    text-align: center;
+    color: #fff;
+    -webkit-border-radius: 23px;
+    -moz-border-radius: 23px;
+    border-radius: 23px;
+    border: 0;
+    outline: none;
+    font-size: 16px;
+    background: -webkit-linear-gradient(left, #ac36ff 0, #6123ff 49%,#2919ff 100%); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(right, #ac36ff 0, #6123ff 49%,#2919ff 100%); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(right, #ac36ff 0, #6123ff 49%,#2919ff 100%); /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, #ac36ff 0, #6123ff 49%,#2919ff 100%); /* 标准的语法 */
+    cursor: pointer;
+}
+/*dataUpload.html*/
+.header{
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 9;
+    height: 70px;
+    background: #2e0245;
+    box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.5);
+}
+.orderBox{
+    margin-top: 100px;
+}
+.header img{
+    position: relative;
+    top: 13px;
+    left: 40px;
+}
+.orderBox table{
+    width:1100px;
+    border:0;
+    margin:50px auto 0;
+    text-align:left;
+    border-collapse:collapse;
+    border-spacing:0;
+}
+.orderBox table thead tr{
+    background: #f0ecf4;
+}
+.orderBox .table-txt,.txtLi,.keyValue span:nth-child(2),.popContentBox li p,.listBox li p{
+    background: -webkit-linear-gradient(left, #ac36ff 0, #6123ff 49%,#2919ff 100%); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(right, #ac36ff 0, #6123ff 49%,#2919ff 100%); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(right, #ac36ff 0, #6123ff 49%,#2919ff 100%); /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, #ac36ff 0, #6123ff 49%,#2919ff 100%); /* 标准的语法 */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 16px;
+}
+.table-txt{
+    cursor: pointer;
+}
+.orderBox table tr{
+    height: 50px;
+}
+.orderBox table tr:nth-child(even){
+    background: #f9f8f9;
+}
+
+.orderBox table tr td{
+    padding-left: 30px;
+}
+.orderBox table tbody tr{
+    border-bottom: 1px solid #d1d1d1;
+}
+.orderBox table tbody tr i,.txtLi s{
+    display: inline-block;
+    background: url("../img/arrow.png");
+    height: 15px;
+    width: 8px;
+}
+.transferBox{
+    margin: 60px auto;
+}
+.transferTxt{
+    width: 610px;
+    margin: 0 auto;
+}
+.transferTxt ul {
+    height: 48px;
+}
+.transferTxt ul li{
+    height: 100%;
+    line-height: 48px;
+}
+.radiusLi{
+    width: 370px;
+    -webkit-border-radius: 23px;
+    -moz-border-radius: 23px;
+    border-radius: 23px;
+    border: 1px solid #9708cc;
+    color: #999;
+}
+.radiusLiSpan01{
+    display: inline-block;
+    height: 100%;
+    width: 150px;
+    color: #fff;
+    text-align: center;
+    -webkit-border-radius: 23px;
+    -moz-border-radius: 23px;
+    border-radius: 23px;
+    background: -webkit-linear-gradient(left, #ac36ff 0, #6123ff 49%,#2919ff 100%); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(right, #ac36ff 0, #6123ff 49%,#2919ff 100%); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(right, #ac36ff 0, #6123ff 49%,#2919ff 100%); /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, #ac36ff 0, #6123ff 49%,#2919ff 100%); /* 标准的语法 */
+    cursor: pointer;
+}
+.radiusLiSpan02{
+    margin-left: 20px;
+}
+.txtLi s{
+    position: relative;
+    top: 3px;
+}
+.txtBox{
+    background: #faf6fd;
+    padding: 25px;
+    margin-bottom: 60px;
+}
+.txtBox p{
+    margin-bottom: 10px;
+    color: #292929;
+}
+.keyValue{
+    text-align: center;
+    margin-bottom: 40px;
+}
+/*弹窗*/
+.popMask{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.5);
+    z-index: 2;
+    display: none;
+}
+.popContentBox{
+    width: 770px;
+    height: 420px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    z-index: 10;
+    background: #fff;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    padding: 20px;
+    display: none;
+}
+.popContentBox li {
+    margin: 10px;
+    overflow: hidden;
+    font-size: 16px;
+}
+.popContentBox li span {
+    float: left;
+}
+.popContentBox li p {
+    float: right;
+}
+.imgBox{
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+.imgBox img{
+    width: 240px;
+    height: 240px;
+}
+/*End  dataUpload*/
+
+
+
+/*echainList*/
+.listBox{
+    width: 1057px;
+    overflow: hidden;
+}
+.listBox li{
+    width: 45%;
+    overflow: hidden;
+    float: left;
+    margin: 10px 0;
+    font-size: 18px;
+}
+.listBox li:nth-child(odd){
+    margin-right: 5%;
+}
+.listBox li:nth-child(even){
+    margin-left: 5%;
+}
+.listBox li span{
+    float: left;
+}
+.listBox li p{
+    float: right;
+}
+
+
+.page-box{
+    display: none;
+}
+/*End echainList*/
+
+
+/*移动端*/
+
+@media screen and (max-width: 768px) {
+    body,.infoBox, .orderBox, .transferBox, .txtBox, .keyValue{
+        width: 100%;
+    }
+    .infoTop img{
+        width: 100%;
+    }
+    /*dataUpload*/
+    .orderBox{
+        width: 100%;
+    }
+    .orderBox table{
+        width: 100%;
+        border: 0;
+        margin: 0.5rem auto 0;
+        text-align: left;
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+    .orderBox table tbody{
+        text-align: center;
+    }
+    .orderBox table tr td {
+        padding-left: 0.25rem;
+    }
+    .orderBox table tbody tr i, .txtLi s {
+        display: inline-block;
+        background: url(../img/arrow.png) no-repeat;
+        height: 0.3rem;
+        width: 0.16rem;
+        position: relative;
+        right: 0.15rem;
+        top: 0.02rem;
+    }
+    .popContentBox{
+        width: 100%;
+    }
+    .popContentBox li p{
+        max-width: 60%;
+        overflow: hidden;
+    }
+    /*perfectInfo*/
+    .infoCon{
+        width: 96%;
+    }
+    .infoCon ul{
+        width: 90%;
+        margin: 0 auto;
+    }
+    .infoCon li{
+        width: 100%;
+        padding:0 0.1rem;
+        display: -webkit-box;
+        display: -moz-box;
+        display: box;
+    }
+    .infoCon li label{
+        -webkit-box-flex: 0;
+    }
+    .infoCon li input{
+        -webkit-box-flex: 1;
+    }
+    .transferTxt{
+        width: 100%;
+    }
+
+    .transferTxt ul li{
+        width: 95%;
+        margin: 0 auto;
+    }
+    .infoCon li input,.infoCon li textarea{
+        width: 50%;
+    }
+    .radiusLi,.txtLi{
+        float: none;
+    }
+    .txtLi{
+        text-align: center;
+    }
+    .txtBox{
+        width: 90%;
+        padding: 0.5rem;
+    }
+    /*echainList*/
+    .listBox{
+        width: 96%;
+        overflow: hidden;
+        padding: 0 2%;
+    }
+    .listBox li{
+        width: 100%;
+        overflow: hidden;
+        margin: 0.1rem 0;
+        font-size: 18px;
+        float: none;
+    }
+    .listBox li:nth-child(odd){
+        margin-right: 0;
+    }
+    .listBox li:nth-child(even){
+        margin-left: 0;
+    }
+    .listBox li span{
+        float: left;
+    }
+    .listBox li p{
+        float: right;
+        width: 64%;
+        overflow: hidden;
+        text-align: right;
+    }
+    
+    /*分页*/
+    .box{
+        display: none;
+    }
+    .page-box{
+        width: 80%;
+        margin: 0.2rem auto;
+        display: block;
+        text-align: center;
+    }
+    .page-box span:nth-child(1){
+        margin-right: 0.3rem;
+    }
+    .page-box span:nth-child(2){
+        margin-left: 0.3rem;
+    }
+}
