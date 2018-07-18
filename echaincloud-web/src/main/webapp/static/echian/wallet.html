@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="telephone=no" name="format-detection"/>
+    <meta content="email=no" name="format-detection"/>
+    <link href="../css/style.css" rel="stylesheet" type="text/css">
+    <link href="../css/swiper.css" rel="stylesheet" type="text/css">
+    <link href="../font/iconfont.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../js/hotcss.js"></script>
+    <title>ECP</title>
+</head>
+<body class="bg-white">
+<header class="re-header">
+    <div class="t-box header-top h-auto">
+        <i class="iconfont icon-fanhui color-white f-icon-s2"></i>
+        <h2 class="t-box-flex1 t-center color-white f-s4">ECP</h2>
+    </div>
+
+    <div class="headPicBox re-picBox">
+            <span>
+                <img src="../img/headPic.png" alt="">
+            </span>
+        <p class="color-white">Roc</p>
+        <p class="color-white re-font01">8068.88<span>元</span></p>
+
+    </div>
+</header>
+<section>
+    <article>
+        <ul class="wa-ul">
+            <li>
+                <div class="wa-ul-box">
+                    <span class="wa-buy">
+                    </span>
+                    <div class="wa-ul-child01">4567.88  ECP</div>
+                    <div class="wa-ul-child02">0.02195352 ETH</div>
+                </div>
+                <span class="wa-money">10元</span>
+            </li>
+
+            <li>
+                <div class="wa-ul-box">
+                    <span class="wa-buy">
+                    </span>
+                    <div class="wa-ul-child01">4567.88  ECP</div>
+                    <div class="wa-ul-child02">0.02195352 ETH</div>
+                </div>
+                <span class="wa-money">100元</span>
+            </li>
+            <li>
+                <div class="wa-ul-box active">
+                    <span class="wa-buy">
+                        <img src="../img/wa-buy.png" alt="">
+                    </span>
+
+                    <div class="wa-ul-child01">4567.88  ECP</div>
+                    <div class="wa-ul-child02">0.02195352 ETH</div>
+                </div>
+                <span class="wa-money">1000元</span>
+            </li>
+        </ul>
+        <p class="t-center">
+            <input class="wa-btn" type="button" value="确认充值">
+        </p>
+        <p class="t-center wa-txt">
+            <span>汇率  </span>
+            <span> 0.00000572</span>
+        </p>
+        <p class="t-center" style="color: #b4b0bf;">已阅读并同意《用户充值协议》</p>
+        <div class="assetBox">
+            <p class="assetBoxP">资产</p>
+            <div class="assetECPCon">
+                <div class="assetCon01">
+                    <img src="../img/ECP.png" alt="">
+                    <span class="txtECP" >ECP</span>
+                </div>
+                <div class="assetCon02">
+                    <p class="t-right assetConP01">99814.17</p>
+                    <p class="t-right assetConP02">¥1786.77</p>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
+<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script>
+    $(function () {
+        $(".wa-ul-box").click(function () {
+            var img = $("<img src='../img/wa-buy.png'>");
+            $(this).addClass("active").parent().siblings().find(".wa-ul-box").removeClass("active");
+            $(this).parent().find(".wa-buy").html(img);
+            $(this).parent().siblings().find(".wa-buy").html("");
+        })
+    })
+</script>
+</body>
+</html>

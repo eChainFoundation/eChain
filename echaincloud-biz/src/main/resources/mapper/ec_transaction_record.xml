@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.echain.dao.EcTransactionRecordDao">
+    <resultMap id="BaseResultMap" type="com.echain.entity.EcTransactionRecord">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="TINYINT"/>
+        <result column="block_number" property="blockNumber" jdbcType="BIGINT"/>
+        <result column="block_hash" property="blockHash" jdbcType="VARCHAR"/>
+        <result column="hash" property="hash" jdbcType="VARCHAR"/>
+        <result column="nonce" property="nonce" jdbcType="BIGINT"/>
+        <result column="transaction_index" property="transactionIndex" jdbcType="BIGINT"/>
+        <result column="from" property="from" jdbcType="VARCHAR"/>
+        <result column="to" property="to" jdbcType="VARCHAR"/>
+        <result column="value" property="value" jdbcType="DOUBLE"/>
+        <result column="contract_address" property="contractAddress" jdbcType="VARCHAR"/>
+        <result column="gas" property="gas" jdbcType="BIGINT"/>
+        <result column="gas_price" property="gasPrice" jdbcType="BIGINT"/>
+        <result column="gas_used" property="gasUsed" jdbcType="BIGINT"/>
+        <result column="is_error" property="isError" jdbcType="CHAR"/>
+        <result column="txreceipt_status" property="txreceiptStatus" jdbcType="CHAR"/>
+        <result column="cumulative_gas_used" property="cumulativeGasUsed" jdbcType="BIGINT"/>
+        <result column="confirmations" property="confirmations" jdbcType="BIGINT"/>
+        <result column="time_stamp" property="timeStamp" jdbcType="BIGINT"/>
+        <result column="input" property="input" jdbcType="LONGVARCHAR"/>
+        <result column="flag" property="type" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <insert id="save" parameterType="com.echain.entity.EcTransactionRecord" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO ec_transaction_record(address,`type`,block_number,block_hash,`hash`,nonce,transaction_index,`from`,`to`,`value`,
+    contract_address,gas,gas_price,gas_used,is_error,txreceipt_status,cumulative_gas_used,confirmations,time_stamp,`input`)
+    VALUES (#{item.address},#{item.type},#{item.blockNumber},#{item.blockHash},#{item.hash},#{item.nonce},#{item.transactionIndex},
+      #{item.from},#{item.to},#{item.value},#{item.contractAddress},#{item.gas},#{item.gasPrice},#{item.gasUsed},#{item.isError},
+      #{item.txreceiptStatus},#{item.cumulativeGasUsed},#{item.confirmations},#{item.timeStamp},#{item.input})
+  </insert>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO
+        ec_transaction_record(address,`type`,block_number,block_hash,`hash`,nonce,transaction_index,`from`,`to`,`value`,
+        contract_address,gas,gas_price,gas_used,is_error,txreceipt_status,cumulative_gas_used,confirmations,time_stamp,`input`)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.address},#{item.type},#{item.blockNumber},#{item.blockHash},#{item.hash},#{item.nonce},#{item.transactionIndex},
+            #{item.from},#{item.to},#{item.value},#{item.contractAddress},#{item.gas},#{item.gasPrice},#{item.gasUsed},#{item.isError},
+            #{item.txreceiptStatus},#{item.cumulativeGasUsed},#{item.confirmations},#{item.timeStamp},#{item.input})
+        </foreach>
+    </insert>
+
+    <select id="getCountByAddress" resultType="int">
+    SELECT COUNT(*)
+    FROM ec_transaction_record
+    WHERE address=#{address}
+  </select>
+
+    <select id="getRechargeRecord" resultType="com.echain.entity.EcTransactionRecord">
+        SELECT id,`type`,`from`,`to`,`value`
+        FROM ec_transaction_record
+        WHERE `to`=#{address}
+        AND `type`=#{type}
+        AND flag=0
+        <if test="contractAddress != null">
+            AND contract_address=#{contractAddress}
+        </if>
+        AND `value`>0
+    </select>
+
+    <update id="updateFlagById">
+      UPDATE ec_transaction_record
+      SET flag=1
+      WHERE id=#{id}
+    </update>
+</mapper>

@@ -11,7 +11,7 @@ public class EcPoints extends BaseEntity {
     private Long userDappId;
 
     private Long transactionId;
-    
+
     private Long points;
 
     private String type;
@@ -53,14 +53,14 @@ public class EcPoints extends BaseEntity {
     }
 
     public Long getPoints() {
-		return points;
-	}
+        return points;
+    }
 
-	public void setPoints(Long points) {
-		this.points = points;
-	}
+    public void setPoints(Long points) {
+        this.points = points;
+    }
 
-	public String getType() {
+    public String getType() {
         return type;
     }
 
@@ -81,6 +81,20 @@ public class EcPoints extends BaseEntity {
     }
 
     public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public EcPoints() {
+    }
+
+    public EcPoints(Long userId, Long dappId, Long userDappId, Long transactionId, Long points, String type, String describeText, Date createTime) {
+        this.userId = userId;
+        this.dappId = dappId;
+        this.userDappId = userDappId;
+        this.transactionId = transactionId;
+        this.points = points;
+        this.type = type;
+        this.describeText = describeText;
         this.createTime = createTime;
     }
 }

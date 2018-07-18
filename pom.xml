@@ -43,6 +43,7 @@
         <poi.version>3.17</poi.version>
 
         <web3j.version>3.3.1</web3j.version>
+        <quartz.version>2.3.0</quartz.version>
     </properties>
 
     <dependencyManagement>

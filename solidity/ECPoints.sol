@@ -306,7 +306,7 @@ contract ECPoints is StandardBurnableToken, Ownable {
   string public name = "ECPoints";
   string public symbol = "ECP";
   uint8 public decimals = 4;
-  uint256 public INITIAL_SUPPLY = 10000000000000000;
+  uint256 public INITIAL_SUPPLY = 150000000000000;
 
   address public owner;
 

@@ -53,4 +53,15 @@ public class EcTakePoints extends BaseEntity {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+    public EcTakePoints() {
+    }
+
+    public EcTakePoints(Long userWalletId, Long takePoints, String type, String status, Date createTime) {
+        this.userWalletId = userWalletId;
+        this.takePoints = takePoints;
+        this.type = type;
+        this.status = status;
+        this.createTime = createTime;
+    }
 }

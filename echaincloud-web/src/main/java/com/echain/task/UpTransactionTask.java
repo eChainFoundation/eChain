@@ -1,7 +1,9 @@
 package com.echain.task;
 
 import com.alibaba.fastjson.JSON;
+import com.echain.common.util.CommonUtil;
 import com.echain.common.util.DateUtil;
+import com.echain.common.util.ExceptionUtil;
 import com.echain.dao.EcOrderDao;
 import com.echain.entity.EcLogisticsRecord;
 import com.echain.entity.EcOrder;
@@ -12,7 +14,6 @@ import com.echain.service.UserDappService;
 import com.echain.solidity.SaveData_sol_SaveData;
 import com.echain.solidity.SaveData_sol_SaveData.SetStringEventResponse;
 import com.echain.solidity.UpDownData;
-import com.echain.util.JsonUtil;
 import com.echain.util.Md5Util;
 import com.echain.vo.ImportVo;
 import org.slf4j.Logger;
@@ -21,15 +22,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
+import javax.annotation.Resource;
+import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * 定时数据上链
+ */
 @Service
 public class UpTransactionTask {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UpTransactionTask.class);
+    private static final Logger logger = LoggerFactory.getLogger(UpTransactionTask.class);
 
     @Autowired
     private TaskService taskService;
@@ -43,127 +51,126 @@ public class UpTransactionTask {
     @Autowired
     UpDownData upDownData;
 
-    @Scheduled(cron = "0 0 23 * * ?")
+    @Resource(name = "web3j")
+    Web3j web3j;
+
+    @Scheduled(cron = "${params.up-transaction-task-corn}")
     public void upTransaction() {
-        List<EcUserDapp> userDapps = userDappService.getBySingleUpload();
+        Date date = new Date();
+        handler(date, DateUtil.convert2String(date, "yyyyMMdd"), "all", web3j, null);
+        handler(DateUtil.addDays(date, -1), DateUtil.convert2String(DateUtil.addDays(date, -1),
+                "yyyyMMdd"), "day", web3j, null);
+    }
+
+    @Async
+    public void testHandler(Date date, String frequency, Web3j web3j, BigInteger price) {
+        String time = DateUtil.convert2String(date, "yyyyMMdd");
+        handler(date, time, frequency, web3j, price);
+    }
+
+    public void handler(Date date, String time, String frequency, Web3j web3j, BigInteger price) {
+        List<EcUserDapp> userDapps = userDappService.getBySingleUpload(frequency);
 
         try {
             String userAppIds = null;
-            if (userDapps != null && userDapps.size() > 0) {
+            if (!CommonUtil.isEmpty(userDapps)) {
                 for (EcUserDapp userDapp : userDapps) {
-                    if (userAppIds == null) {
-                        userAppIds = userDapp.getId() + "";
-                    } else {
-                        userAppIds += "," + userDapp.getId();
-                    }
+                    userAppIds = userAppIds == null ? userDapp.getId() + "" : userAppIds + "," + userDapp.getId();
 
                     List<EcTransaction> list = taskService
-                            .selectListTransactionMds5ByUserDappIds(Long.toString(userDapp.getId()));
+                            .selectListTransactionMds5ByUserDappIds(Long.toString(userDapp.getId()), date);
 
-                    if (list != null && list.size() > 0) {
+                    if (!CommonUtil.isEmpty(list)) {
                         List<Long> tids = new ArrayList<>();
-
                         Map<String, Object> map = new HashMap<>();
-                        list.stream().forEach(r -> {
-                            List<String> recoreds = new ArrayList<>();
+                        executor(list, map, tids);
 
-                            List<EcLogisticsRecord> recordList = r.getRecords();
-                            if (recordList != null && recordList.size() > 0) {
-                                recordList.stream().forEach(m -> {
-                                    recoreds.add(m.getLogisticsMd5());
-                                });
-                            }
-
-                            map.put(r.getDescribeMd5(), recoreds);
-                            tids.add(r.getId());
-                        });
-
-                        upload(userDapp.getUserId(), userDapp.getDappId(), tids, map);
+                        upload(userDapp.getUserId(), userDapp.getDappId(), tids, map, time, web3j, price);
                     }
                 }
             }
 
-            List<EcUserDapp> notUserDapps = userDappService.getByNotSingleUpload();
+            List<EcUserDapp> notUserDapps = userDappService.getByNotSingleUpload(frequency);
 
-            if (notUserDapps != null && notUserDapps.size() > 0) {
+            if (!CommonUtil.isEmpty(notUserDapps)) {
                 // 不是单独上链的DappId集合
                 Set<Long> dappIdSet = notUserDapps.stream().map(r -> r.getDappId()).collect(Collectors.toSet());
 
                 for (Long dappId : dappIdSet) {
-                    List<EcTransaction> transactions = taskService
-                            .selectListTransactionsNotSingleUploadDappId(userAppIds, dappId);
+                    List<EcTransaction> transactions = taskService.selectListTransactionsNotSingleUploadDappId(userAppIds, dappId, date);
 
-                    if (transactions != null && transactions.size() > 0) {
+                    if (!CommonUtil.isEmpty(transactions)) {
                         List<Long> tids2 = new ArrayList<>();
-
                         Map<String, Object> map = new HashMap<>();
-                        transactions.stream().forEach(r -> {
-                            List<String> recoreds = new ArrayList<>();
+                        executor(transactions, map, tids2);
 
-                            List<EcLogisticsRecord> recordList = r.getRecords();
-                            if (recordList != null && recordList.size() > 0) {
-                                recordList.stream().forEach(m -> {
-                                    recoreds.add(m.getLogisticsMd5());
-                                });
-                            }
-
-                            map.put(r.getDescribeMd5(), recoreds);
-                            tids2.add(r.getId());
-                        });
-
-                        upload(0l, dappId, tids2, map);
+                        upload(0L, dappId, tids2, map, time, web3j, price);
                     }
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("交易数据同步失败！");
+            logger.error("交易数据同步失败！");
+            logger.error(ExceptionUtil.getExceptionMsg(e));
         }
     }
 
-    private void upload(Long userId, Long dappId, List<Long> tids, Map<String, Object> md5Map) throws Exception {
-        if (tids != null && tids.size() > 0) {
-            System.out.println(
-                    new Date() + " 同步以太坊交易数据" + ",userId=" + userId + ",dappId=" + dappId + ",条数=" + tids.size());
+    private void executor(List<EcTransaction> list, Map<String, Object> map, List<Long> tids) {
+        list.stream().forEach(r -> {
+            List<String> records = new ArrayList<>();
 
-            if (md5Map != null && md5Map.size() > 0) {
-                String dataMd5 = Md5Util.encode(JsonUtil.convertToString(md5Map));
+            List<EcLogisticsRecord> recordList = r.getRecords();
+            if (!CommonUtil.isEmpty(recordList)) {
+                recordList.stream().forEach(m -> records.add(m.getLogisticsMd5()));
+            }
 
-                int tryNum = 2; // 执行次数
+            map.put(r.getDescribeMd5(), records);
+            tids.add(r.getId());
+        });
+    }
 
-                for (int i = 0; i <= tryNum; i++) {
+    private void upload(Long userId, Long dappId, List<Long> tids, Map<String, Object> md5Map, String time, Web3j web3j,
+                        BigInteger price) {
+        if (!CommonUtil.isEmpty(tids)) {
+            logger.info(new StringBuffer("同步以太坊交易数据").append(",userId=").append(userId)
+                    .append(",dappId=").append(dappId).append(",条数=").append(tids.size()).toString());
+
+            if (!CommonUtil.isEmpty(md5Map)) {
+                String dataMd5 = Md5Util.encode(JSON.toJSONString(md5Map));
+
+                // 可重试执行2次
+                for (int i = 0; i <= 2; i++) {
                     try {
                         if (i > 0) {
-                            System.out.println(
-                                    new Date() + " 重试上链第" + i + "次" + ",userId=" + userId + ",dappId=" + dappId);
+                            logger.info(new StringBuffer("重试上链第").append(i).append("次")
+                                    .append(",userId=").append(userId).append(",dappId=").append(dappId).toString());
                         }
-                        processor(userId, dappId, tids, dataMd5);
-                        System.out.println(new Date() + " 同步以太坊交易数据" + ",userId=" + userId + ",dappId=" + dappId
-                                + ",条数=" + tids.size() + ", 成功");
+                        processor(userId, dappId, tids, dataMd5, time, web3j, price);
+                        logger.info(new StringBuffer("同步以太坊交易数据").append(",userId=").append(userId)
+                                .append(",dappId=").append(dappId).append(",条数=").append(tids.size())
+                                .append(", 成功").toString());
                         return;
                     } catch (Exception e) {
-                        System.out.println(new Date() + " 同步以太坊交易数据" + ",userId=" + userId + ",dappId=" + dappId
-                                + ",条数=" + tids.size() + ", 失败");
-                        e.printStackTrace();
+                        logger.error(new StringBuffer("同步以太坊交易数据").append(",userId=").append(userId)
+                                .append(",dappId=").append(dappId).append(",条数=").append(tids.size())
+                                .append(", 失败").toString());
+                        logger.error(ExceptionUtil.getExceptionMsg(e));
                     }
                 }
             }
         }
     }
 
-    private void processor(Long userId, Long dappId, List<Long> tids, String dataMd5) throws Exception {
+    private void processor(Long userId, Long dappId, List<Long> tids, String dataMd5, String time, Web3j web3j, BigInteger price) throws Exception {
         // 数据上链
-        Map<String, String> map = upDownData.uploadData(userId, dappId, dataMd5);
+        Map<String, String> map = upDownData.uploadData(userId, dappId, dataMd5, time, web3j, price);
 
-        if (map != null && map.size() > 0) {
+        if (!CommonUtil.isEmpty(map)) {
             String key = map.get("key");
-            if (key == null) {
-                String date = DateUtil.convert2String(new Date(), "yyyyMMdd");
-                key = date + ":" + userId + ":" + dappId;
+            if (StringUtils.isEmpty(key)) {
+                key = time + ":" + userId + ":" + dappId;
             }
             // 批量更新交易记录
             taskService.batchUpdateTransaction(tids, key, map.get("hash"), map.get("block_no"), dataMd5);
-            // System.out.println(new Date() + "批量更新交易数据成功， " + "条数：" + tids.size());
         }
     }
 
@@ -172,11 +179,7 @@ public class UpTransactionTask {
         String descText = JSON.toJSONString(vo);
         String descMd5 = Md5Util.encode(descText);
 
-        EcOrder order = new EcOrder();
-
-        order.setDescribeText(descText);
-        order.setDescribeMd5(descMd5);
-        order.setOrderId(vo.getOrderId());
+        EcOrder order = new EcOrder(vo.getOrderId(), descMd5, descText);
 
         try {
             SaveData_sol_SaveData contract = upDownData.getContract();
@@ -192,7 +195,7 @@ public class UpTransactionTask {
                 blockNo = transaction.getBlockNumber().toString();
                 List<SetStringEventResponse> ls = contract.getSetStringEvents(transaction);
                 if (ls.size() == 1) {
-                    System.out.println("key=" + ls.get(0).key);
+                    logger.info("key=" + ls.get(0).key);
                 }
             }
 
@@ -201,10 +204,10 @@ public class UpTransactionTask {
             order.setBlockNo(blockNo);
 
             orderDao.insert(order);
-            LOGGER.info("订单数据上链成功，orderId=" + vo.getOrderId());
+            logger.info("订单数据上链成功，orderId=" + vo.getOrderId());
         } catch (Exception e) {
-            LOGGER.error("订单数据上链失败，orderId=" + vo.getOrderId());
-            e.printStackTrace();
+            logger.error("订单数据上链失败，orderId=" + vo.getOrderId());
+            logger.error(ExceptionUtil.getExceptionMsg(e));
         }
     }
 }

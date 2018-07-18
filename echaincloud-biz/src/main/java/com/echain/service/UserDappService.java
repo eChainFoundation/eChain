@@ -1,14 +1,15 @@
 package com.echain.service;
 
-import com.echain.redis.Redis;
 import com.echain.constant.RedisConstant;
 import com.echain.dao.EcUserDappDao;
 import com.echain.entity.EcUserDapp;
 import com.echain.manager.RedisHashMag;
 import com.echain.manager.RedisKeyMag;
+import com.echain.redis.Redis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -23,23 +24,27 @@ public class UserDappService {
     @Autowired
     RedisHashMag redisHashMag;
 
-    public List<EcUserDapp> getBySingleUpload() {
-        return ecUserDappDao.getBySingleUpload();
+    public List<EcUserDapp> getBySingleUpload(String frequency) {
+        return ecUserDappDao.getBySingleUpload(frequency);
     }
 
-    public List<EcUserDapp> getByNotSingleUpload() {
-        return ecUserDappDao.getByNotSingleUpload();
+    public List<EcUserDapp> getByNotSingleUpload(String frequency) {
+        return ecUserDappDao.getByNotSingleUpload(frequency);
     }
 
     public EcUserDapp selectByUserIdAndDappId(Long userId, Long dappId) {
-        String key = Redis.mergeKey(RedisConstant.USERDAPP, "userId#dappId", Long.toString(userId), Long.toString(dappId));
-        EcUserDapp o = redisKeyMag.getValue(key, EcUserDapp.class);
-        if (o != null) {
-            return o;
-        }
-
         EcUserDapp result = ecUserDappDao.selectByUserIdAndDappId(userId, dappId);
-        redisKeyMag.setValue(key, result);
+
+        if(result==null){
+            EcUserDapp ecUserDapp = new EcUserDapp();
+            ecUserDapp.setUserId(userId);
+            ecUserDapp.setDappId(dappId);
+            ecUserDapp.setConsumePoints(0L);
+            ecUserDapp.setGetPoints(0L);
+            ecUserDapp.setCreateTime(new Date());
+            ecUserDapp.setIsUploadSingle("1");
+            ecUserDappDao.insert(ecUserDapp);
+        }
 
         return result;
     }
@@ -50,6 +55,15 @@ public class UserDappService {
         String key = Redis.mergeKey(RedisConstant.USERDAPP, "userId#dappId", Long.toString(ecUserDapp.getUserId()),
                 Long.toString(ecUserDapp.getDappId()));
         redisKeyMag.delKey(key);
+    }
+
+    public int updatePoint(Long userId, Long dappId, Long consumePoints, Long oldConsumePoints, Long getPoints, Long oldGetPoints) {
+        int res = ecUserDappDao.updatePoint(userId, dappId, consumePoints, oldConsumePoints, getPoints, oldGetPoints);
+
+        String key = Redis.mergeKey(RedisConstant.USERDAPP, "userId#dappId", Long.toString(userId), Long.toString(dappId));
+        redisKeyMag.delKey(key);
+
+        return res;
     }
 
     public void insertSelective(EcUserDapp ecUserDapp) {

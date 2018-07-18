@@ -101,9 +101,8 @@ public class PointsRest {
         EcUserDapp userRecevieDapp = this.userService.getUserDappByUserIdAndDappId(userReceive.getId(), dapp.getId(),
                 requestVo.getIsUploadSingle());
 
-        String code = this.pointService.changePoints(userSendPoint, userReceivePoint, requestVo.getDescText(),
-                requestVo.getPoints(), requestVo.getTransactionId(),
-                dapp, userSendDapp, userRecevieDapp);
+        String code = this.pointService.changePoints(userSendPoint.getUserId(), userReceivePoint.getUserId(), requestVo.getDescText(),
+                requestVo.getPoints(), requestVo.getTransactionId(), dapp, userSendDapp, userRecevieDapp);
         if (StringUtils.isEmpty(code)) {
             return new BaseResponse(500, "失败", "");
         } else {

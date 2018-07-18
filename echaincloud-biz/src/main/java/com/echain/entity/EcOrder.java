@@ -81,4 +81,13 @@ public class EcOrder extends BaseEntity {
 	public void setDescribeText(String describeText) {
 		this.describeText = describeText == null ? null : describeText.trim();
 	}
+
+	public EcOrder() {
+	}
+
+	public EcOrder(String orderId, String describeMd5, String describeText) {
+		this.orderId = orderId;
+		this.describeMd5 = describeMd5;
+		this.describeText = describeText;
+	}
 }

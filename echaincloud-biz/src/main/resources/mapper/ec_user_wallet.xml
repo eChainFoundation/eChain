@@ -11,95 +11,11 @@
   <sql id="Base_Column_List" >
     id, user_id, wallet, type, create_time
   </sql>
- <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from ec_user_wallet
-    where id = #{id,jdbcType=BIGINT}
-  </select>-->
   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from ec_user_wallet
     where user_id = #{userId,jdbcType=BIGINT}
   </select>
- <!-- <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from ec_user_wallet
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="com.echain.entity.EcUserWallet" >
-  	<selectKey resultType="long"  keyProperty="id">  
- 	   SELECT LAST_INSERT_ID() 
-   	</selectKey> 
-    insert into ec_user_wallet (id, user_id, wallet, 
-      type, create_time)
-    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{wallet,jdbcType=VARCHAR}, 
-      #{type,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.echain.entity.EcUserWallet" >
-  	<selectKey resultType="long"  keyProperty="id">  
- 	   SELECT LAST_INSERT_ID() 
-   	</selectKey> 
-    insert into ec_user_wallet
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="userId != null" >
-        user_id,
-      </if>
-      <if test="wallet != null" >
-        wallet,
-      </if>
-      <if test="type != null" >
-        type,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="wallet != null" >
-        #{wallet,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null" >
-        #{type,jdbcType=CHAR},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.echain.entity.EcUserWallet" >
-    update ec_user_wallet
-    <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="wallet != null" >
-        wallet = #{wallet,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null" >
-        type = #{type,jdbcType=CHAR},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.echain.entity.EcUserWallet" >
-    update ec_user_wallet
-    set user_id = #{userId,jdbcType=BIGINT},
-      wallet = #{wallet,jdbcType=VARCHAR},
-      type = #{type,jdbcType=CHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=BIGINT}
-  </update>-->
+
 </mapper>

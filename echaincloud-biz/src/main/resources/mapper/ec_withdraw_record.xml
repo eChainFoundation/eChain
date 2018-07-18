@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.echain.dao.EcWithdrawRecordDao" >
+  <resultMap id="BaseResultMap" type="com.echain.entity.EcWithdrawRecord" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="wallet" property="wallet" jdbcType="VARCHAR" />
+    <result column="to" property="to" jdbcType="VARCHAR" />
+    <result column="points" property="points" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <insert id="save" parameterType="com.echain.entity.EcWithdrawRecord" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO ec_withdraw_record(id,user_id,`type`,wallet,`to`,points,status,remark,create_time)
+    VALUES (#{id},#{userId},#{type},#{wallet},#{to},#{points},#{status},#{remark},now());
+  </insert>
+
+  <select id="getListByUser" resultMap="BaseResultMap">
+    SELECT id,user_id,`type`,wallet,`to`,points,status,remark,create_time
+    FROM ec_withdraw_record
+    WHERE user_id=#{userId}
+    AND `type`=#{type}
+    ORDER BY create_time DESC
+  </select>
+</mapper>

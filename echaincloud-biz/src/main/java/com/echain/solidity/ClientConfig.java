@@ -31,9 +31,29 @@ public class ClientConfig {
         return web3j;
     }
 
+    @Bean(name = "web3jTwo")
+    public Web3j createWeb3jTwo() {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS).build();
+        HttpService httpService = new HttpService(
+                paramsProperties.getEthereumRpcIpTwo(), client, false);
+        Web3j web3j = Web3j.build(httpService);
+//        web3j = Web3j.build(new HttpService(EchainConstant.ETHEREUM_RPC_IP));
+
+        return web3j;
+    }
+
     @Bean(name = "admin")
     public Admin createAdmin() {
         Admin admin = Admin.build(new HttpService(paramsProperties.getEthereumRpcIp()));
+        return admin;
+    }
+
+    @Bean(name = "adminTwo")
+    public Admin createAdminTwo() {
+        Admin admin = Admin.build(new HttpService(paramsProperties.getEthereumRpcIpTwo()));
         return admin;
     }
 }

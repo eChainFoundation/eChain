@@ -9,9 +9,10 @@
     <result column="consume_points" property="consumePoints" jdbcType="BIGINT" />
     <result column="get_points" property="getPoints" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="up_echain_frequency" property="upEchainFrequency" jdbcType="CHAR"/>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, dapp_id, is_upload_single, consume_points, get_points, create_time
+    id, user_id, dapp_id, is_upload_single, consume_points, get_points, create_time,up_echain_frequency
   </sql>
   <!--<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -21,17 +22,19 @@
   </select>-->
   
   <select id="getBySingleUpload" resultMap="BaseResultMap">
-    select 
+    SELECT
     <include refid="Base_Column_List" />
-    from ec_user_dapp
-    where is_upload_single = '1'
+    FROM ec_user_dapp
+    WHERE is_upload_single = '1'
+    AND up_echain_frequency = #{frequency}
   </select>
   
   <select id="getByNotSingleUpload" resultMap="BaseResultMap">
-    select 
+    SELECT
     <include refid="Base_Column_List" />
-    from ec_user_dapp
-    where is_upload_single = '0'
+    FROM ec_user_dapp
+    WHERE is_upload_single = '0'
+    AND up_echain_frequency = #{frequency}
   </select>
   
   <select id="selectByUserIdAndDappId" resultMap="BaseResultMap">
@@ -146,4 +149,24 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>-->
+
+  <update id="updatePoint">
+    UPDATE ec_user_dapp
+    <set>
+      <if test="consumePoints != null" >
+        consume_points = #{consumePoints},
+      </if>
+      <if test="getPoints != null" >
+        get_points = #{getPoints},
+      </if>
+    </set>
+    WHERE user_id=#{userId}
+    AND dapp_id=#{dappId}
+    <if test="oldConsumePoints != null" >
+      AND consume_points=#{oldConsumePoints}
+    </if>
+    <if test="oldGetPoints != null" >
+      AND get_points=#{oldGetPoints}
+    </if>
+  </update>
 </mapper>

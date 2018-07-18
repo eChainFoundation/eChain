@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.echain.dao.EcBlockNumberDao" >
+  <resultMap id="BaseResultMap" type="com.echain.entity.EcBlockNumber" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="wallet" property="wallet" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+  </resultMap>
+
+  <insert id="save" parameterType="com.echain.entity.EcBlockNumber"  useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO ec_block_number(wallet,number,type) VALUES (#{wallet},#{number},#{type});
+  </insert>
+
+  <select id="getNumberByWalletAndType" resultType="java.lang.Long">
+    SELECT number FROM ec_block_number
+    WHERE wallet=#{wallet}
+    AND type=#{type}
+  </select>
+
+  <update id="updateNumberByType">
+    UPDATE ec_block_number
+    SET number=#{number}
+    WHERE wallet=#{wallet}
+    AND type=#{type}
+  </update>
+</mapper>

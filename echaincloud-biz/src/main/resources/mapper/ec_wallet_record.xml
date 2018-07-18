@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.echain.dao.EcWalletRecordDao" >
+  <resultMap id="BaseResultMap" type="com.echain.entity.EcWalletRecord" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="from" property="from" jdbcType="VARCHAR" />
+    <result column="to" property="to" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="points" property="points" jdbcType="DECIMAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <insert id="save" parameterType="com.echain.entity.EcWalletRecord"  useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO ec_wallet_record(id,user_id,`from`,`to`,`type`,points,remark,create_time)
+    VALUES (#{id},#{userId},#{from},#{to},#{type},#{points},#{remark},now());
+  </insert>
+
+  <select id="getRecordByType" resultMap="BaseResultMap">
+    SELECT id,user_id,`from`,`to`,`type`,points,remark,create_time
+    FROM ec_wallet_record
+    WHERE user_id=#{userId}
+    AND `type`=#{type}
+    ORDER BY create_time DESC
+  </select>
+
+  <select id="getById" resultMap="BaseResultMap">
+    select id,user_id,`from`,`to`,`type`,points,remark,create_time
+    FROM ec_wallet_record
+    WHERE id=#{id}
+  </select>
+</mapper>

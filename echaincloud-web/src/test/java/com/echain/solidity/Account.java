@@ -1,6 +1,11 @@
 package com.echain.solidity;
 
-import org.springframework.stereotype.Component;
+import com.echain.service.WalletService;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
@@ -22,7 +27,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
-@Component
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class Account {
 
     @Resource(name = "admin")
@@ -30,6 +36,9 @@ public class Account {
 
     @Resource(name = "web3j")
     Web3j web3j;
+
+    @Autowired
+    WalletService walletService;
 
     /**
      * Life
@@ -50,11 +59,9 @@ public class Account {
         return null;
     }
 
-    public static void main(String[] args) throws IOException {
-        Account a = new Account();
-
-        String accId = a.createAccount("123456");
-//    	
+    @Test
+    public void test() throws IOException {
+        String accId = walletService.createAccount("123456", admin);
         System.out.println("accId  ==  " + accId);
 
 //    	try {

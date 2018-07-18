@@ -6,7 +6,7 @@ public class EchainConstant {
 	
 	//平台用户手机号
 	public static final String DEFALUT_USER_PHONE = "1";
-	public static final BigInteger GAS_PRICE = BigInteger.valueOf(22000000000l);
+	public static final BigInteger GAS_PRICE = BigInteger.valueOf(80000000000l);
 	public static final BigInteger GAS_LIMIT = BigInteger.valueOf(1000000);
 	
 	//loacl

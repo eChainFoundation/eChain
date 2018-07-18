@@ -12,95 +12,29 @@
   <sql id="Base_Column_List" >
     id, now_points, freeze_points, consume_points, all_points, create_time
   </sql>
-  <!--<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from ec_points_pool
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from ec_points_pool
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="com.echain.entity.EcPointsPool" >
-    insert into ec_points_pool (id, now_points, freeze_points, 
-      consume_points, all_points, create_time
-      )
-    values (#{id,jdbcType=BIGINT}, #{nowPoints,jdbcType=BIGINT}, #{freezePoints,jdbcType=BIGINT}, 
-      #{consumePoints,jdbcType=BIGINT}, #{allPoints,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.echain.entity.EcPointsPool" >
-    insert into ec_points_pool
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="nowPoints != null" >
-        now_points,
-      </if>
-      <if test="freezePoints != null" >
-        freeze_points,
-      </if>
-      <if test="consumePoints != null" >
-        consume_points,
-      </if>
-      <if test="allPoints != null" >
-        all_points,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="nowPoints != null" >
-        #{nowPoints,jdbcType=BIGINT},
-      </if>
-      <if test="freezePoints != null" >
-        #{freezePoints,jdbcType=BIGINT},
-      </if>
-      <if test="consumePoints != null" >
-        #{consumePoints,jdbcType=BIGINT},
-      </if>
-      <if test="allPoints != null" >
-        #{allPoints,jdbcType=BIGINT},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.echain.entity.EcPointsPool" >
-    update ec_points_pool
+
+  <update id="updatePoint">
+    UPDATE ec_points_pool
     <set >
       <if test="nowPoints != null" >
-        now_points = #{nowPoints,jdbcType=BIGINT},
-      </if>
-      <if test="freezePoints != null" >
-        freeze_points = #{freezePoints,jdbcType=BIGINT},
+        now_points = #{nowPoints},
       </if>
       <if test="consumePoints != null" >
-        consume_points = #{consumePoints,jdbcType=BIGINT},
+        consume_points = #{consumePoints},
       </if>
       <if test="allPoints != null" >
-        all_points = #{allPoints,jdbcType=BIGINT},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        all_points = #{allPoints},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    WHERE id = #{id}
+    <if test="oldNowPoints != null" >
+      AND now_points = #{oldNowPoints}
+    </if>
+    <if test="oldConsumePoints != null" >
+      AND consume_points = #{oldConsumePoints}
+    </if>
+    <if test="oldAllPoints != null" >
+      AND all_points = #{oldAllPoints}
+    </if>
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.echain.entity.EcPointsPool" >
-    update ec_points_pool
-    set now_points = #{nowPoints,jdbcType=BIGINT},
-      freeze_points = #{freezePoints,jdbcType=BIGINT},
-      consume_points = #{consumePoints,jdbcType=BIGINT},
-      all_points = #{allPoints,jdbcType=BIGINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=BIGINT}
-  </update>-->
 </mapper>

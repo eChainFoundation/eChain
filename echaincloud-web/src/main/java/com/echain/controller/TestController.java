@@ -1,22 +1,22 @@
 package com.echain.controller;
 
 import com.echain.common.util.DateUtil;
-import com.echain.entity.EcTransaction;
-import com.echain.entity.EcUserDapp;
-import com.echain.service.TaskService;
-import com.echain.service.UserDappService;
 import com.echain.solidity.UpDownData;
 import com.echain.task.UpTransactionTask;
-import com.echain.util.JsonUtil;
-import com.echain.util.Md5Util;
 import com.echain.vo.ImportVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.web3j.protocol.Web3j;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import javax.annotation.Resource;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /***
  * 简介：测试类
@@ -31,103 +31,39 @@ import java.util.stream.Collectors;
 public class TestController {
 
     @Autowired
-    private TaskService taskService;
-
-    @Autowired
-    private UserDappService userDappService;
+    UpTransactionTask task;
 
     @Autowired
     UpDownData upDownData;
 
+    @Resource(name = "web3j")
+    Web3j web3j;
+
+    @Resource(name = "web3jTwo")
+    Web3j web3jTwo;
+
     @RequestMapping(value = "test.html", produces = "text/html;charset=UTF-8")
-    public String process() {
-
-        List<EcUserDapp> userDapps = this.userDappService.getBySingleUpload();
-
-        try {
-            String userAppIds = null;
-            if (userDapps != null && userDapps.size() > 0) {
-                for (EcUserDapp userDapp : userDapps) {
-                    if (userAppIds == null) {
-                        userAppIds = userDapp.getId() + "";
-                    } else {
-                        userAppIds += "," + userDapp.getId();
-                    }
-
-                    List<EcTransaction> list = taskService
-                            .selectListTransactionMds5ByUserDappIds(Long.toString(userDapp.getId()));
-                    List<Long> tids = new ArrayList<>();
-
-                    Map<String, Object> map = new HashMap<>();
-                    list.stream().forEach(r -> {
-                        List<String> recoreds = r.getRecords().stream().map(m -> m.getLogisticsMd5())
-                                .collect(Collectors.toList());
-
-                        map.put(r.getDescribeMd5(), recoreds);
-                        tids.add(r.getId());
-                    });
-
-                    upload(userDapp.getUserId(), userDapp.getDappId(), tids, map);
-                }
-            }
-
-            List<EcUserDapp> notUserDapps = this.userDappService.getByNotSingleUpload();
-
-            if (notUserDapps != null && notUserDapps.size() > 0) {
-                // 不是单独上链的DappId集合
-                Set<Long> dappIdSet = notUserDapps.stream().map(r -> r.getDappId()).collect(Collectors.toSet());
-
-                for (Long dappId : dappIdSet) {
-                    List<EcTransaction> transactions = this.taskService
-                            .selectListTransactionsNotSingleUploadDappId(userAppIds, dappId);
-                    List<Long> tids2 = new ArrayList<>();
-
-                    Map<String, Object> map = new HashMap<>();
-                    transactions.stream().forEach(r -> {
-                        List<String> recoreds = r.getRecords().stream().map(m -> m.getLogisticsMd5())
-                                .collect(Collectors.toList());
-
-                        map.put(r.getDescribeMd5(), recoreds);
-                        tids2.add(r.getId());
-                    });
-
-                    upload(0l, dappId, tids2, map);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("交易数据同步失败！失败开始ID ==== ");
+    public @ResponseBody
+    String process(@RequestParam(value = "date", required = false) String date,
+                   @RequestParam(value = "frequency", required = false) String frequency,
+                   @RequestParam(value = "net", required = false) Integer net,
+                   @RequestParam(value = "price", required = false) Integer price) {
+        if (!DateUtil.isValidDate(date, DateUtil.FORMAT_DEFAULT)) {
+            return "参数date格式不正确，格式为：yyyyMMddHHmmss";
         }
 
-        return "1";
-    }
+        String f = StringUtils.isEmpty(frequency) ? "all" : frequency;
+        Web3j web = (net == null || net == 1) ? web3j : web3jTwo;
 
-    private void upload(Long userId, Long dappId, List<Long> tids, Map<String, Object> md5Map) throws Exception {
-        if (tids != null && tids.size() > 0) {
-            System.out.println(new Date() + "同步以太坊交易数据条数  ==== " + tids.size());
-
-            if (md5Map != null && md5Map.size() > 0) {
-                String dataMd5 = Md5Util.encode(JsonUtil.convertToString(md5Map));
-                // 数据上链
-                Map<String, String> map = upDownData.uploadData(userId, dappId, dataMd5);
-                if (map != null && map.size() > 0) {
-                    System.out.println(new Date() + "批量更新交易数据条数  ==== " + tids.size());
-
-                    String key = map.get("key");
-                    if (key == null) {
-                        String date = DateUtil.convert2String(new Date(), "yyyyMMdd");
-                        key = date + ":" + userId + ":" + dappId;
-                    }
-                    // 批量更新交易记录
-                    this.taskService.batchUpdateTransaction(tids, key, map.get("hash"), map.get("block_no"), dataMd5);
-                    System.out.println(new Date() + "批量更新交易数据成功 ");
-                }
-            }
+        if ("day".equals(f)) {
+            Date t = StringUtils.isEmpty(date) ? new Date() : DateUtil.convert2Date(date, DateUtil.FORMAT_DEFAULT);
+            task.testHandler(t, f, web, BigInteger.valueOf(price * 1000000000L));
+        } else {
+            task.testHandler(null, f, web, BigInteger.valueOf(price * 1000000000L));
         }
-    }
 
-    @Autowired
-    UpTransactionTask task;
+        return "success";
+    }
 
     @RequestMapping(value = "task", produces = "text/html;charset=UTF-8")
     public @ResponseBody

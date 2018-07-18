@@ -30,18 +30,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="t-box header-top h-auto">
 		<i class="iconfont icon-fanhui icon-fanhui-js f-icon-s2 color-white"></i>
 		<h2 class="t-box-flex1 f-s4 mar-l color-white"></h2>
-		<a class="mar-r color-white f-s4">Withdraw</a>
+		<span class="mar-r color-white f-s4"></span>
 		<a class="color-white f-s4">Join us</a>
 	</div>
 
 		<div class="t-box t-box-align personal-header-box">
-			<div class="personal-header-img mar-r"><img src="<%=basePath%>/static/img/header-img.png" /></div>
+			<div class="personal-header-img mar-r" onclick="withdraw('${userId}')">
+				<img src="<%=basePath%>/static/img/header-img.png" />
+			</div>
 			<div class="t-box-flex1 f-s4 color-white">
 				<p>${userName }</p>
 			</div>
 			<div class="personal-point f-s2 color-white t-box t-box-align">
 				<img src="<%=basePath%>/static/img/eMall/personal-icon.png" />
-				<div class="t-box-flex1">ePoint:<span>${points }</span></div>
+				<div class="t-box-flex1">Wallet:<span>${points }</span></div>
 			</div>
 		</div>
 </header>
@@ -70,42 +72,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</a>
 					</li>
 				</c:forEach>
-				<%-- <li>
-					<a class="t-box">
-						<div class="presonC-img"><img src="<%=basePath%>/static/img/presonal-center-icon1.png" /></div>
-						<div class="t-box-flex1 t-right">
-							<p class="color-gray personC-prompt">You have earned <span class="color-block">100 ePoints</span></p>
-							<div class="personC-check t-box t-box-align">
-								<p class="t-box-flex1 t-right f-s4">check</p>
-								<i class="iconfont icon-youjiantou"></i>
-							</div>
-						</div>
-					</a>
-				</li>
-				<li>
-					<a class="t-box">
-						<div class="presonC-img"><img src="<%=basePath%>/static/img/presonal-center-icon2.png" /></div>
-						<div class="t-box-flex1 t-right">
-							<p class="color-gray personC-prompt">You have earned <span class="color-block">100 ePoints</span></p>
-							<div class="personC-check t-box t-box-align">
-								<p class="t-box-flex1 t-right f-s4">check</p>
-								<i class="iconfont icon-youjiantou"></i>
-							</div>
-						</div>
-					</a>
-				</li>
-				<li>
-					<a class="t-box">
-						<div class="presonC-img"><img src="<%=basePath%>/static/img/presonal-center-icon3.png" /></div>
-						<div class="t-box-flex1 t-right">
-							<p class="color-gray personC-prompt">You have earned <span class="color-block">100 ePoints</span></p>
-							<div class="personC-check t-box t-box-align">
-								<p class="t-box-flex1 t-right f-s4">check</p>
-								<i class="iconfont icon-youjiantou"></i>
-							</div>
-						</div>
-					</a>
-				</li> --%>
 			</ul>
 		</div>
 	</article>
@@ -152,6 +118,10 @@ function jumpHref() {
 	var phoneNumber = getQueryString("phoneNumber"),
         type = getQueryString("type");
 	location.href = "<%=path%>/user/${userId}/upload.do?phoneNumber=" + phoneNumber+"&type=" + type;
+}
+
+function withdraw(userId) {
+    location.href="<%=path%>/wallet?userId=" + userId
 }
 
 function transcation(userId, dappId) {

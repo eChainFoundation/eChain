@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="telephone=no" name="format-detection"/>
+    <meta content="email=no" name="format-detection"/>
+    <link href="../css/style.css" rel="stylesheet" type="text/css">
+    <link href="../css/swiper.css" rel="stylesheet" type="text/css">
+    <link href="../font/iconfont.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../js/hotcss.js"></script>
+    <title>提现</title>
+</head>
+<body class="bg-white">
+<header>
+    <div class="t-box header-top h-auto">
+        <i class="iconfont icon-fanhui f-icon-s2"></i>
+        <h2 class="t-box-flex1 t-center f-s4">提现</h2>
+    </div>
+</header>
+<section class="em-section">
+    <article>
+        <ul class="em-ul">
+            <li class="dBox">
+                <div>
+                    <span>提现地址/账户</span>
+                </div>
+               <div style="width: 60%;">
+                   <input type="text" placeholder="输入地址">
+               </div>
+            </li>
+            <li class="dBox">
+                <div>
+                    <span>数量</span>
+                </div>
+                <div>
+                    <input type="text" placeholder="最小提现单位100">
+                </div>
+                <div>
+                    <p>ECP</p>
+                </div>
+            </li>
+            <li class="dBox" style="border: 0;">
+                <div>
+                    <span>可转额度</span>
+                </div>
+                <div><input type="text" placeholder="99814.17"></div>
+                <div><p style="color: #501ef7;">全部提现</p></div>
+            </li>
+
+
+            <li class="progressBox">
+                <div class="progressLine" id="progressLine">
+                    <s class="progressPoint" id="progressPoint"></s>
+                    <div class="em-mask" id="em-mask"></div>
+                </div>
+                <div class="progressCri">
+                    <span class="scale01">低</span>
+                    <span class="scale02">正常</span>
+                    <span class="scale03">高</span>
+                </div>
+
+                <p class="t-center progressTxt">4356  ECP</p>
+            </li>
+            <!--<li>
+                <p style="width: 100%;line-height: 80px;">4356  ECP</p>
+            </li>-->
+            <li class="dBox">
+                <div><span>短信验证码</span></div>
+                <div><input type="text" placeholder="短信验证码"></div>
+                <div>
+                    <p>
+                        <s></s>
+                        <span  onclick="time($(this))">发送验证码</span>
+                    </p>
+                </div>
+            </li>
+        </ul>
+        <p class="t-center">
+            <input class="em-sure" type="button" value="确定">
+        </p>
+    </article>
+    <article>
+        <div class="txtBox">
+            <p>提现须知</p>
+            <p>支持金额：最低提现金额为100ECP</p>
+            <p>提现金额：每日最高提现10000ECP，单笔最高提现10000ECP</p>
+            <p>提现手续费：0.00009ECP</p>
+        </div>
+    </article>
+</section>
+<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script>
+        var line = document.getElementById('progressLine');
+        var point = document.getElementById('progressPoint');
+        var emMask = document.getElementById('em-mask');
+        var PointLeft = 0;
+
+        point.addEventListener('touchmove', function(event) {
+            event.preventDefault();
+            var width=line.offsetWidth;//line的长度，用于计算红色块最大滑动的距离
+            if (event.targetTouches.length == 1) {
+                var touch = event.targetTouches[0];
+                //计算point的left值，pageX是相对于整个页面的坐标，减去15（point长度的一半）是为了让鼠标点显示在中间，可以更改值看看效果，如果line不是紧挨着屏幕，那还需要计算line距离左屏幕的距离，应为pageX！！！
+                PointLeft = touch.pageX-17;
+                if(PointLeft<=0){//point的left值最小是0；
+                    PointLeft=0;
+                }else if(PointLeft>=width-point.offsetWidth){////point的left值最小是line的width减去point的width；
+                    PointLeft=width-point.offsetWidth;
+                }
+                emMask.style.width = PointLeft +'px' ;
+                this.style.left = PointLeft + "px";
+            }
+        });
+</script>
+</body>
+</html>

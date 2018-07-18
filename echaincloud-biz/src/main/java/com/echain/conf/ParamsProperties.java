@@ -14,6 +14,8 @@ public class ParamsProperties {
 
     private String ethereumRpcIp;
 
+    private String ethereumRpcIpTwo;
+
     private String walletFile;
 
     private String walletPassword;
@@ -32,6 +34,18 @@ public class ParamsProperties {
 
     private String etherscanUrl;
 
+    private String upTransactionTaskCorn;
+
+    private String syncTransactionRecordTaskCorn;
+
+    private String walletFilePath;
+
+    private String walletQimgPath;
+
+    private String contractAddress;
+
+    private String mainAccount;
+
     public String getUploadImgPath() {
         return uploadImgPath;
     }
@@ -46,6 +60,14 @@ public class ParamsProperties {
 
     public void setEthereumRpcIp(String ethereumRpcIp) {
         this.ethereumRpcIp = ethereumRpcIp;
+    }
+
+    public String getEthereumRpcIpTwo() {
+        return ethereumRpcIpTwo;
+    }
+
+    public void setEthereumRpcIpTwo(String ethereumRpcIpTwo) {
+        this.ethereumRpcIpTwo = ethereumRpcIpTwo;
     }
 
     public String getWalletFile() {
@@ -118,5 +140,53 @@ public class ParamsProperties {
 
     public void setEtherscanUrl(String etherscanUrl) {
         this.etherscanUrl = etherscanUrl;
+    }
+
+    public String getUpTransactionTaskCorn() {
+        return upTransactionTaskCorn;
+    }
+
+    public void setUpTransactionTaskCorn(String upTransactionTaskCorn) {
+        this.upTransactionTaskCorn = upTransactionTaskCorn;
+    }
+
+    public String getSyncTransactionRecordTaskCorn() {
+        return syncTransactionRecordTaskCorn;
+    }
+
+    public void setSyncTransactionRecordTaskCorn(String syncTransactionRecordTaskCorn) {
+        this.syncTransactionRecordTaskCorn = syncTransactionRecordTaskCorn;
+    }
+
+    public String getWalletFilePath() {
+        return walletFilePath;
+    }
+
+    public void setWalletFilePath(String walletFilePath) {
+        this.walletFilePath = walletFilePath;
+    }
+
+    public String getWalletQimgPath() {
+        return walletQimgPath;
+    }
+
+    public void setWalletQimgPath(String walletQimgPath) {
+        this.walletQimgPath = walletQimgPath;
+    }
+
+    public String getContractAddress() {
+        return contractAddress;
+    }
+
+    public void setContractAddress(String contractAddress) {
+        this.contractAddress = contractAddress;
+    }
+
+    public String getMainAccount() {
+        return mainAccount;
+    }
+
+    public void setMainAccount(String mainAccount) {
+        this.mainAccount = mainAccount;
     }
 }

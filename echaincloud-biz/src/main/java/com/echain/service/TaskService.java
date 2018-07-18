@@ -5,6 +5,7 @@ import com.echain.entity.EcTransaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -52,16 +53,16 @@ public class TaskService {
         return this.transactionDao.batchUpdateTransaction(list, transactionKey, transactionHash, blockNo, md5);
     }
 
-    public List<EcTransaction> selectListTransactionMds5ByUserDappIds(String userDappIds) {
-        return transactionDao.selectListTransactionMds5ByUserDappIds(userDappIds);
+    public List<EcTransaction> selectListTransactionMds5ByUserDappIds(String userDappIds, Date date) {
+        return transactionDao.selectListTransactionMds5ByUserDappIds(userDappIds, date);
     }
 
     public List<EcTransaction> selectListTransactionByUserDappId(String userDappId) {
         return transactionDao.selectListTransactionByUserDappId(userDappId);
     }
 
-    public List<EcTransaction> selectListTransactionsNotSingleUploadDappId(String userAppIds, Long dappId) {
-        return transactionDao.selectListTransactionsNotSingleUploadDappId(userAppIds, dappId);
+    public List<EcTransaction> selectListTransactionsNotSingleUploadDappId(String userAppIds, Long dappId, Date date) {
+        return transactionDao.selectListTransactionsNotSingleUploadDappId(userAppIds, dappId, date);
     }
 
 }

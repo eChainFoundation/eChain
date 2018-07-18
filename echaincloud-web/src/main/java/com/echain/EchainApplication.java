@@ -1,5 +1,6 @@
 package com.echain;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -19,8 +20,6 @@ public class EchainApplication extends SpringBootServletInitializer {
     }
 
     public static void main(String[] args) {
-        SpringApplicationBuilder springApplicationBuilder = new SpringApplicationBuilder(EchainApplication.class);
-        springApplicationBuilder = springApplicationBuilder.web(true);
-        springApplicationBuilder.run(args);
+        SpringApplication.run(EchainApplication.class, args);
     }
 }

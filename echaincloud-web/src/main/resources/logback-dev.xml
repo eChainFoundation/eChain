@@ -9,9 +9,9 @@
     </appender>
 
     <appender name="ECHAIN_API_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>echain-web.log</file>
+        <file>/var/log/echain/echain-web.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>echain-web-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>/var/log/echain/echain-web-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>128MB</maxFileSize>
         </rollingPolicy>
         <encoder>

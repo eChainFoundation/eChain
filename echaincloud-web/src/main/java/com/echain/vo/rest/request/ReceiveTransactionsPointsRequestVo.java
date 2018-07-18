@@ -6,6 +6,9 @@ public class ReceiveTransactionsPointsRequestVo {
     @ApiModelProperty(value = "手机号", required = true, dataType = "String")
     private String phoneNumber;
 
+    @ApiModelProperty(value = "用户手机号码归属地", required = false, dataType = "String")
+    private String country;
+
     @ApiModelProperty(value = "dappName", required = true, dataType = "String")
     private String dappName;
 
@@ -133,5 +136,13 @@ public class ReceiveTransactionsPointsRequestVo {
 
     public void setPoints(Long points) {
         this.points = points;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

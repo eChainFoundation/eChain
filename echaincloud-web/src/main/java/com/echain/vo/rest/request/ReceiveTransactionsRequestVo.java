@@ -7,6 +7,9 @@ public class ReceiveTransactionsRequestVo {
     @ApiModelProperty(value = "手机号", required = true, dataType = "String")
     private String phoneNumber;
 
+    @ApiModelProperty(value = "用户手机号码归属地", required = false, dataType = "String")
+    private String country;
+
     @ApiModelProperty(value = "dappName", required = true, dataType = "String")
     private String dappName;
 
@@ -30,6 +33,9 @@ public class ReceiveTransactionsRequestVo {
 
     @ApiModelProperty(value = "状态", required = true, dataType = "String")
     private String status;
+
+    @ApiModelProperty(value = "上链频率", required = true, dataType = "String", name = "all/year/week/day/hour,默认为all")
+    private String upEchainFrequency;
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -101,5 +107,21 @@ public class ReceiveTransactionsRequestVo {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getUpEchainFrequency() {
+        return upEchainFrequency;
+    }
+
+    public void setUpEchainFrequency(String upEchainFrequency) {
+        this.upEchainFrequency = upEchainFrequency;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

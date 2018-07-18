@@ -70,20 +70,28 @@ public class RedisHashMag {
     }
 
     public void setValue(Object key, Object field, Object value) {
-        if (value == null) {
-            value = "";
-        }
+        setValue(key, field, value, this.expire, this.timeUnit);
+    }
 
-        redis.HSET(baseKey + key.toString(), field.toString(), value);
-        redis.EXPIRE(baseKey + key.toString(), this.expire, this.timeUnit);
+    public void setValue(Object key, Object field, Object value, int expire) {
+        setValue(key, field, value, expire, this.timeUnit);
+    }
+
+    public void setValue(Object key, Object field, Object value, int expire, TimeUnit timeUnit) {
+        setVal(key, field, value);
+        redis.EXPIRE(baseKey + key.toString(), expire, timeUnit);
     }
 
     public void setValue(Object key, Object field, Object value, Date date) {
+        setVal(key, field, value);
+        redis.EXPIREAT(baseKey + key.toString(), date);
+    }
+
+    private void setVal(Object key, Object field, Object value) {
         if (value == null) {
             value = "";
         }
 
         redis.HSET(baseKey + key.toString(), field.toString(), value);
-        redis.EXPIREAT(baseKey + key.toString(), date);
     }
 }

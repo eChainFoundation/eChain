@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.echain.dao.EcWalletDao" >
+  <resultMap id="BaseResultMap" type="com.echain.entity.EcWallet" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="wallet" property="wallet" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="value" property="value" jdbcType="DECIMAL" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="wallet_file" property="walletFile" jdbcType="VARCHAR" />
+    <result column="qimg_file" property="qimgFile" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <insert id="save" parameterType="com.echain.entity.EcWallet" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO ec_wallet(wallet,password,`type`,create_time) VALUES (#{wallet},#{password},#{type},now());
+  </insert>
+
+  <select id="selectByWithoutFile" resultType="com.echain.entity.EcWallet">
+    SELECT id,wallet FROM ec_wallet WHERE wallet_file IS NULL;
+  </select>
+
+  <select id="selectByTypeWithoutUser" resultType="com.echain.entity.EcWallet">
+    SELECT id,wallet,`type` FROM ec_wallet
+    WHERE user_id IS NULL
+    AND `type` = #{type}
+    AND wallet_file IS NOT NULL
+    LIMIT 1;
+  </select>
+
+  <update id="updateUserId" parameterType="com.echain.entity.EcWallet">
+    UPDATE ec_wallet
+    SET user_id = #{userId}
+    WHERE wallet = #{wallet}
+    AND `type` = #{type}
+    AND user_id IS NULL;
+  </update>
+
+  <update id="updateValue">
+    UPDATE ec_wallet
+    SET `value` = #{value}
+    WHERE user_id = #{userId}
+    AND `type` = #{type}
+    AND `value` =#{oldValue};
+  </update>
+
+  <update id="updateImg">
+    UPDATE ec_wallet
+    SET qimg_file=#{qimgFile}
+    WHERE wallet = #{wallet}
+    AND `type` = #{type}
+  </update>
+
+  <select id="selectByUserId" resultType="com.echain.entity.EcWallet">
+    SELECT id,wallet,`type`,`value`,password,wallet_file,qimg_file
+    FROM ec_wallet
+    WHERE user_id=#{userId}
+  </select>
+
+  <select id="selectByUserIdType" resultType="com.echain.entity.EcWallet">
+    SELECT id,wallet,`type`,`value`,password,wallet_file,qimg_file
+    FROM ec_wallet
+    WHERE user_id=#{userId}
+    AND `type` = #{type}
+  </select>
+
+  <select id="getByUsed" resultType="com.echain.entity.EcWallet">
+    SELECT  id,wallet,`type`,`value`,password,wallet_file,qimg_file
+    FROM ec_wallet
+    WHERE user_id IS NOT NULL;
+  </select>
+</mapper>

@@ -126,4 +126,15 @@
       create_time = #{createTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>-->
+
+  <update id="updatePointByUserId">
+    UPDATE ec_user_points
+    SET now_points = #{nowPoints},
+    <if test="consumePoints != null" >
+      consume_points = #{consumePoints},
+    </if>
+    all_points = #{allPoints}
+    WHERE user_id=#{userId}
+    AND now_points =#{oldPoints}
+  </update>
 </mapper>

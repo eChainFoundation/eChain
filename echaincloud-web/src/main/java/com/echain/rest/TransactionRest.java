@@ -2,8 +2,10 @@ package com.echain.rest;
 
 import com.alibaba.fastjson.JSON;
 import com.echain.common.BaseResponse;
+import com.echain.common.util.CommonUtil;
 import com.echain.conf.ParamsProperties;
 import com.echain.entity.*;
+import com.echain.enumaration.UpEchainFrequency;
 import com.echain.service.*;
 import com.echain.util.Md5Util;
 import com.echain.vo.EcLogisticsRecordVo;
@@ -12,10 +14,7 @@ import com.echain.vo.rest.request.MatcheRequestVo;
 import com.echain.vo.rest.request.ReceiveLogisticsRequestVo;
 import com.echain.vo.rest.request.ReceiveTransactionsPointsRequestVo;
 import com.echain.vo.rest.request.ReceiveTransactionsRequestVo;
-import com.echain.vo.rest.response.GetTransactionHashResponseVo;
-import com.echain.vo.rest.response.GetTransactionListResponseVo;
-import com.echain.vo.rest.response.UploadListForCheckResponseVo;
-import com.echain.vo.rest.response.UploadListResponseVo;
+import com.echain.vo.rest.response.*;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -76,32 +75,36 @@ public class TransactionRest {
     @ApiImplicitParam(name = "requestVo", value = "请求体", required = true, dataType = "ReceiveTransactionsRequestVo")
     @PostMapping(value = "receiveTransactions")
     public BaseResponse<Long> receiveTransactions(@RequestBody ReceiveTransactionsRequestVo requestVo) {
-        EcUser user = userService.getUserByPhoneNumber(requestVo.getPhoneNumber());
+        if (!UpEchainFrequency.isInclude(requestVo.getUpEchainFrequency())) {
+            return new BaseResponse<>(500, "上链频率参数异常", 0L);
+        }
+
+        if (CommonUtil.isEmpty(requestVo.getCountry())) {
+            requestVo.setCountry("86");
+        }
+
+        EcUser user = userService.getUserByPhoneNumber(requestVo.getPhoneNumber(), requestVo.getCountry());
         EcDapp dapp = userService.getDappByDappname(requestVo.getDappName());
         EcLogisticsCompany logisticsCompany = null;
         if (!StringUtils.isEmpty(requestVo.getLogisticsCompanyName())) {
             logisticsCompany = userService.getLogisticsCompanyByCompanyname(requestVo.getLogisticsCompanyName());
         }
-        EcUserDapp userDapp = userService.getUserDappByUserIdAndDappId(user.getId(), dapp.getId(), requestVo.getIsUploadSingle());
+        EcUserDapp userDapp = userService.getUserDappByUserIdAndDappId(user.getId(), dapp.getId(), requestVo.getIsUploadSingle(),
+                requestVo.getUpEchainFrequency());
 
-        EcTransaction transaction = new EcTransaction();
-        transaction.setDappId(dapp.getId());
-        transaction.setCreateTime(new Date());
+        EcTransaction transaction = new EcTransaction(user.getId(), dapp.getId(), userDapp.getId(),
+                Md5Util.encode(requestVo.getDescribeText()), requestVo.getStatus(), new Date(), requestVo.getDescribeText(),
+                requestVo.getTransactionNo());
+
         if (logisticsCompany != null) {
             transaction.setLogisticsCompanyId(logisticsCompany.getId());
         }
         if (!StringUtils.isEmpty(requestVo.getLogisticsNo())) {
             transaction.setLogisticsNo(requestVo.getLogisticsNo());
         }
-        transaction.setTransactionNo(requestVo.getTransactionNo());
         if (!StringUtils.isEmpty(requestVo.getTransactionPlatform())) {
             transaction.setTransactionPlatform(requestVo.getTransactionPlatform());
         }
-        transaction.setUserId(user.getId());
-        transaction.setUserDappId(userDapp.getId());
-        transaction.setStatus(requestVo.getStatus());
-        transaction.setDescribeText(requestVo.getDescribeText());
-        transaction.setDescribeMd5(Md5Util.encode(requestVo.getDescribeText()));
 
         transaction = transferService.saveTransferData(transaction);
 
@@ -117,11 +120,30 @@ public class TransactionRest {
     @ApiOperation(value = "根据交易ID获取交易信息")
     @ApiImplicitParam(name = "transactionId", value = "交易Id", required = true, dataType = "long", paramType = "query")
     @GetMapping(value = "/getTransactionsById")
-    public BaseResponse<String> getTransactionsById(@RequestParam Long transactionId) {
-        EcTransaction transaction = this.transferService.selectTransactionById(transactionId);
+    public BaseResponse<EcTransactionResponseVo> getTransactionsById(@RequestParam Long transactionId) {
+        EcTransaction transaction = transferService.selectTransactionById(transactionId);
+        EcTransactionResponseVo responseVo = new EcTransactionResponseVo(transaction);
 
-        return transaction != null ? new BaseResponse<>(200, "成功", transaction.getDescribeText())
-                : new BaseResponse<>(500, "失败", "");
+        return transaction != null ? new BaseResponse<>(200, "成功", responseVo)
+                : new BaseResponse<>(500, "失败", null);
+    }
+
+    @ApiOperation(value = "根据dappName、交易平台、交易单号获取交易数据")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "dappName", value = "dappName", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "transactionPlatform", value = "交易平台", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "transactionNo", value = "交易单号", required = true, dataType = "String", paramType = "query")
+    })
+
+    @GetMapping(value = "/getTransactionsByPlatform")
+    public BaseResponse<EcTransactionResponseVo> getTransactionsByPlatform(@RequestParam String dappName,
+                                                                           @RequestParam String transactionPlatform,
+                                                                           @RequestParam String transactionNo) {
+        EcTransaction transaction = transferService.getTransactionsByPlatform(dappName, transactionPlatform, transactionNo);
+        EcTransactionResponseVo responseVo = new EcTransactionResponseVo(transaction);
+
+        return transaction != null ? new BaseResponse<>(200, "成功", responseVo)
+                : new BaseResponse<>(500, "失败", null);
     }
 
     /**
@@ -195,6 +217,10 @@ public class TransactionRest {
             return new BaseResponse<>(401, "划转的积分数小于等于0", "0");
         }
 
+        if (CommonUtil.isEmpty(requestVo.getCountry())) {
+            requestVo.setCountry("86");
+        }
+
         String sendPhoneNumber = "0";
         String receivePhoneNumber = "0";
         if (!StringUtils.isEmpty(requestVo.getSendPhoneNumber())) {
@@ -220,14 +246,14 @@ public class TransactionRest {
             userReceivePoint = userService.getUserPointByUserId(userReceive.getId());
         }
 
-        EcUser user = userService.getUserByPhoneNumber(requestVo.getPhoneNumber());
+        EcUser user = userService.getUserByPhoneNumber(requestVo.getPhoneNumber(), requestVo.getCountry());
         EcDapp dapp = userService.getDappByDappname(requestVo.getDappName());
 
         EcLogisticsCompany logisticsCompany = null;
         if (!StringUtils.isEmpty(requestVo.getLogisticsCompanyName())) {
             logisticsCompany = userService.getLogisticsCompanyByCompanyname(requestVo.getLogisticsCompanyName());
         }
-        EcUserDapp userDapp = this.userService.getUserDappByUserIdAndDappId(user.getId(), dapp.getId(), requestVo.getIsUploadSingle());
+        EcUserDapp userDapp = userService.getUserDappByUserIdAndDappId(user.getId(), dapp.getId(), requestVo.getIsUploadSingle());
 
         EcTransaction transaction = new EcTransaction();
         transaction.setDappId(dapp.getId());
@@ -441,7 +467,7 @@ public class TransactionRest {
             return new BaseResponse(500, "失败", "");
         }
 
-        List<EcTransaction> list = taskService.selectListTransactionMds5ByUserDappIds(Long.toString(userDapp.getId()));
+        List<EcTransaction> list = taskService.selectListTransactionMds5ByUserDappIds(Long.toString(userDapp.getId()), null);
 
         if (list == null || list.size() == 0) {
             return new BaseResponse(500, "失败", "");
@@ -481,7 +507,7 @@ public class TransactionRest {
             return new BaseResponse<>(500, "失败", "");
         }
 
-        List<EcTransaction> list = taskService.selectListTransactionMds5ByUserDappIds(Long.toString(userDapp.getId()));
+        List<EcTransaction> list = taskService.selectListTransactionMds5ByUserDappIds(Long.toString(userDapp.getId()), null);
 
         if (list == null || list.size() == 0) {
             return new BaseResponse<>(201, "交易记录不存在", "");

@@ -14,7 +14,11 @@ public interface EcUserDappDao extends MyMapper<EcUserDapp> {
 
     List<EcUserDapp> selectByUserId(@Param("userId") Long userId);
 
-    List<EcUserDapp> getBySingleUpload();
+    List<EcUserDapp> getBySingleUpload(@Param("frequency") String frequency);
 
-    List<EcUserDapp> getByNotSingleUpload();
+    List<EcUserDapp> getByNotSingleUpload(@Param("frequency") String frequency);
+
+    int updatePoint(@Param("userId") Long userId, @Param("dappId") Long dappId,
+                    @Param("consumePoints") Long consumePoints, @Param("oldConsumePoints") Long oldConsumePoints,
+                    @Param("getPoints") Long getPoints, @Param("oldGetPoints") Long oldGetPoints);
 }

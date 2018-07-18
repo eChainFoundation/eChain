@@ -51,11 +51,11 @@ public class TestSaveTest {
         SaveData_sol_SaveData contract = load(credentials);//deploy
         System.out.println("==========" + contract.getContractAddress());
         String date = DateUtil.convert2String(new Date(), "yyyyMMdd");
-        upDownData.uploadData(100l, 10l, "0c84e62546c716573425ff95aad5ee936");
+        upDownData.uploadData(100l, 10l, "1210c84e62546c716573425ff95aad5ee936", date);
 
-        upDownData.uploadData(100l, 11l, "1c84e62546c716573425ff95aad5ee936");
+//        upDownData.uploadData(100l, 11l, "1c84e62546c716573425ff95aad5ee936", date);
 
-        upDownData.uploadData(100l, 12l, "2c84e62546c716573425ff95aad5ee936");
+//        upDownData.uploadData(100l, 12l, "2c84e62546c716573425ff95aad5ee936", date);
 //		TransactionReceipt transaction = contract.setstring(date+":"+100+":"+1,"22345560000123123411").send();
 
 //		System.out.println(transaction.getTransactionHash());
@@ -68,11 +68,11 @@ public class TestSaveTest {
         System.out.println("key ========  " + date + ":" + 100 + ":" + 10);
         System.out.println(contract.getString(date + ":" + 100 + ":" + 10).send());
 
-        System.out.println("key ========  " + date + ":" + 100 + ":" + 11);
-        System.out.println(contract.getString(date + ":" + 100 + ":" + 11).send());
-
-        System.out.println("key ========  " + date + ":" + 100 + ":" + 12);
-        System.out.println(contract.getString(date + ":" + 100 + ":" + 12).send());
+//        System.out.println("key ========  " + date + ":" + 100 + ":" + 11);
+//        System.out.println(contract.getString(date + ":" + 100 + ":" + 11).send());
+//
+//        System.out.println("key ========  " + date + ":" + 100 + ":" + 12);
+//        System.out.println(contract.getString(date + ":" + 100 + ":" + 12).send());
 //		}
 
 

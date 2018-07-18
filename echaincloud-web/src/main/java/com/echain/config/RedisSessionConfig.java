@@ -8,7 +8,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  */
 @Configuration
 //maxInactiveIntervalInSeconds 默认是1800秒过期
-@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 1800)
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 1800, redisNamespace = "echain:session")
 public class RedisSessionConfig {
 
 }

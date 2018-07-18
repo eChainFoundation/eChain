@@ -16,6 +16,8 @@ public class EcUserDapp extends BaseEntity {
 
     private Date createTime;
 
+    private String upEchainFrequency;
+
     public Long getUserId() {
         return userId;
     }
@@ -62,5 +64,13 @@ public class EcUserDapp extends BaseEntity {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getUpEchainFrequency() {
+        return upEchainFrequency;
+    }
+
+    public void setUpEchainFrequency(String upEchainFrequency) {
+        this.upEchainFrequency = upEchainFrequency;
     }
 }

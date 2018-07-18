@@ -163,11 +163,19 @@ public class TransferDataService {
         EcUserDapp userRecevieDapp = userService.getUserDappByUserIdAndDappId(userReceive.getId(), dapp.getId(),
                 null);
 
-        return pointService.changePoints(userSendPoint, userReceivePoint, "", points, transactionId, dapp,
+        return pointService.changePoints(userSendPoint.getUserId(), userReceivePoint.getUserId(), "", points, transactionId, dapp,
                 userSendDapp, userRecevieDapp);
     }
 
     public EcTransaction selectTransactionById(Long transactionId) {
         return transactionDao.selectByPrimaryKey(transactionId);
+    }
+
+    public EcTransaction getTransactionsByPlatform(String dappName, String transactionPlatform, String transactionNo) {
+        EcDapp dapp = userService.getDappByDappname(dappName);
+
+        EcTransaction result = transactionDao.getTransactionsByPlatform(dapp.getId(), transactionPlatform, transactionNo);
+
+        return result == null ? new EcTransaction() : result;
     }
 }

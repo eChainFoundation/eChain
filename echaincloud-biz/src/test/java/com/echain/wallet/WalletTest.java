@@ -16,7 +16,7 @@ public class WalletTest {
         BigInteger balance = walletService.getETHBalance("0x2a0ac6022f3cf4ae45388420e3a428ea803f6308");
         System.out.println(balance);
 
-        walletService.transferToETH("0x65cacef2cc12e46f2a91be22fb3f1cdca756e597", 2000);
+//        walletService.transferToETH("0x65cacef2cc12e46f2a91be22fb3f1cdca756e597", 2000);
 
 //        BigInteger value = Convert.toWei("1", Convert.Unit.ETHER).toBigInteger();
 //        System.out.println(value);

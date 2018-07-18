@@ -1,12 +1,12 @@
 package com.echain.service;
 
-import com.echain.redis.Redis;
 import com.echain.constant.RedisConstant;
 import com.echain.dao.EcUserDao;
 import com.echain.dao.EcUserPointsDao;
 import com.echain.dao.EcUserWalletDao;
 import com.echain.entity.*;
 import com.echain.manager.RedisKeyMag;
+import com.echain.redis.Redis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,8 +38,7 @@ public class UserService {
     RedisKeyMag redisKeyMag;
 
     private EcUser selectByPhoneNumber(String phoneNumber) {
-    	String user = RedisConstant.USER;
-        String key = Redis.mergeKey(user, "phoneNumber", phoneNumber);
+        String key = Redis.mergeKey(RedisConstant.USER, "phoneNumber", phoneNumber);
         EcUser o = redisKeyMag.getValue(key, EcUser.class);
         if (o != null) {
             return o;
@@ -70,6 +69,18 @@ public class UserService {
     }
 
     /********************************缓存分割线********************************/
+
+    public EcUser getUserByPhoneNumber(String phoneNumber,String country) {
+        EcUser user = selectByPhoneNumber(phoneNumber);
+        if (user == null) {
+            user = new EcUser();
+            user.setPhoneNumber(phoneNumber);
+            user.setCreateTime(new Date());
+            user.setCountry(country);
+            insertSelective(user);
+        }
+        return user;
+    }
 
     public EcUser getUserByPhoneNumber(String phoneNumber) {
         EcUser user = selectByPhoneNumber(phoneNumber);
@@ -107,6 +118,23 @@ public class UserService {
                 userDapp.setIsUploadSingle(isUploadSingle);
             userDapp.setConsumePoints(0l);
             userDapp.setGetPoints(0l);
+            userDappService.insertSelective(userDapp);
+        }
+        return userDapp;
+    }
+
+    public EcUserDapp getUserDappByUserIdAndDappId(Long userId, Long dappId, String isUploadSingle, String upEchainFrequency) {
+        EcUserDapp userDapp = userDappService.selectByUserIdAndDappId(userId, dappId);
+        if (userDapp == null) {
+            userDapp = new EcUserDapp();
+            userDapp.setCreateTime(new Date());
+            userDapp.setDappId(dappId);
+            userDapp.setUserId(userId);
+            if (isUploadSingle != null && !"".equals(isUploadSingle))
+                userDapp.setIsUploadSingle(isUploadSingle);
+            userDapp.setConsumePoints(0l);
+            userDapp.setGetPoints(0l);
+            userDapp.setUpEchainFrequency(upEchainFrequency);
             userDappService.insertSelective(userDapp);
         }
         return userDapp;

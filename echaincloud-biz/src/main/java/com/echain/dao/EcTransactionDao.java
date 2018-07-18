@@ -4,6 +4,7 @@ import com.echain.common.util.MyMapper;
 import com.echain.entity.EcTransaction;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface EcTransactionDao extends MyMapper<EcTransaction> {
@@ -20,16 +21,19 @@ public interface EcTransactionDao extends MyMapper<EcTransaction> {
 
     //List<EcTransaction> selectListTransactionMD5sByUserId(@Param("userId") Long userId);
 
-    List<EcTransaction> selectListTransactionMds5ByUserDappIds(@Param("userDappIds") String userDappIds);
+    List<EcTransaction> selectListTransactionMds5ByUserDappIds(@Param("userDappIds") String userDappIds, @Param("date") Date date);
 
     List<EcTransaction> selectListTransactionByUserDappId(@Param("userDappId") String userDappId);
 
     //List<EcTransaction> selectListTransactionsNotSingleUpload(@Param("userAppIds") String userAppIds);
 
     List<EcTransaction> selectListTransactionsNotSingleUploadDappId(@Param("userAppIds") String userAppIds,
-                                                                    @Param("dappId") Long dappId);
+                                                                    @Param("dappId") Long dappId, @Param("date") Date date);
 
     int batchUpdateTransaction(@Param("list") List<Long> list, @Param("transactionKey") String transactionKey,
                                @Param("transactionHash") String transactionHash,
-                               @Param("blockNo") String blockNo, @Param("md5") String md5);
+                               @Param("blockNo") String blockNo, @Param("transactionValue") String transactionValue);
+
+    EcTransaction getTransactionsByPlatform(@Param("dappId") Long dappId, @Param("transactionPlatform") String transactionPlatform,
+                                            @Param("transactionNo") String transactionNo);
 }
